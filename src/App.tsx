@@ -14,6 +14,7 @@ import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import OrderForm from './pages/OrderForm';
 import OrderGuide from './pages/OrderGuide';
+import Categories from './pages/Categories';
 
 function App() {
   return (
@@ -26,7 +27,9 @@ function App() {
         <Route path="products/:productId" element={<ProductDetail />} />
         <Route path="products/clothing/:productId" element={<ClothingProductDetail />} />
         
-        {/* Product Categories */}
+        {/* Categories */}
+        <Route path="categories" element={<Categories />} />
+        <Route path="categorize" element={<Categories />} />
         <Route path="kategori/:categorySlug" element={<Products />} />
         
         {/* Order */}
