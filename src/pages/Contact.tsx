@@ -22,7 +22,7 @@ const Contact = () => {
           from_name: name,
           from_email: email,
           message: message,
-          to_name: 'Aneka Warna Indah',
+          to_name: 'Robby Fashion',
         },
         'YOUR_PUBLIC_KEY' // Replace with your EmailJS public key
       );

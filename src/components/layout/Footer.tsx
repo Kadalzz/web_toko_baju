@@ -47,7 +47,7 @@ const Footer = () => {
           <div>
             <Link to="/" className="flex items-center space-x-2 mb-4">
               <ShoppingBag className="h-8 w-8 text-primary-500" />
-              <span className="text-xl font-bold text-white">Fashion<span className="text-accent">Store</span></span>
+              <span className="text-xl font-bold text-white">Robby <span className="text-accent">Fashion</span></span>
             </Link>
             <p className="text-gray-400 mb-4 text-sm">
               Toko fashion online terpercaya dengan koleksi terlengkap dan harga terbaik. 

@@ -10,7 +10,7 @@ const Terms = () => {
               <FileText size={16} className="text-primary-600 mr-2" />
               <span className="text-primary-700 text-sm font-medium">Syarat dan Ketentuan</span>
             </div>
-            <h1 className="heading-2 mb-4">Syarat dan Ketentuan Aneka Warna Indah</h1>
+            <h1 className="heading-2 mb-4">Syarat dan Ketentuan Robby Fashion</h1>
             <p className="text-gray-600">
               Terakhir diperbarui: {new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
@@ -21,7 +21,7 @@ const Terms = () => {
               <section className="mb-8">
                 <h2 className="text-2xl font-semibold mb-4">1. Ketentuan Umum</h2>
                 <p className="text-gray-600 mb-4">
-                  Dengan menggunakan layanan Aneka Warna Indah, Anda menyetujui syarat dan ketentuan ini. Mohon baca dengan seksama sebelum menggunakan layanan kami.
+                  Dengan menggunakan layanan Robby Fashion, Anda menyetujui syarat dan ketentuan ini. Mohon baca dengan seksama sebelum menggunakan layanan kami.
                 </p>
               </section>
 

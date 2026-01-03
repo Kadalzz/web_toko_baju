@@ -29,7 +29,7 @@ const About = () => {
       <div className="container">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="heading-2 mb-6">Tentang Aneka Warna Indah</h1>
+          <h1 className="heading-2 mb-6">Tentang Robby Fashion</h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Sejak 2008, kami telah membantu ribuan pelanggan mengabadikan momen berharga mereka melalui cetakan foto berkualitas tinggi dan layanan desain profesional.
           </p>
@@ -61,13 +61,13 @@ const About = () => {
             <h2 className="heading-3 mb-6">Cerita Kami</h2>
             <div className="space-y-4 text-gray-600">
               <p>
-                Aneka Warna Indah didirikan dengan visi untuk memberikan layanan cetak foto berkualitas tinggi yang terjangkau bagi semua kalangan. Dimulai dari sebuah studio kecil di Yogyakarta, kami terus berkembang berkat kepercayaan pelanggan.
+                Robby Fashion didirikan dengan visi untuk menyediakan fashion berkualitas tinggi yang terjangkau bagi semua kalangan. Dimulai dari sebuah toko kecil di Jakarta, kami terus berkembang berkat kepercayaan pelanggan.
               </p>
               <p>
                 Kami memahami bahwa setiap foto menyimpan kenangan berharga. Itulah mengapa kami selalu berkomitmen untuk memberikan hasil terbaik dengan menggunakan teknologi cetak modern dan material berkualitas tinggi.
               </p>
               <p>
-                Saat ini, Aneka Warna Indah telah melayani lebih dari 10.000 pelanggan puas dan terus berinovasi dengan layanan desain berbasis AI untuk memberikan pengalaman cetak foto yang lebih baik.
+                Saat ini, Robby Fashion telah melayani lebih dari 10.000 pelanggan puas dan terus berinovasi dengan koleksi terbaru serta layanan pelanggan terbaik untuk memberikan pengalaman belanja fashion yang lebih baik.
               </p>
             </div>
           </div>
@@ -119,7 +119,7 @@ const About = () => {
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <h3 className="font-semibold text-lg">Aneka Warna Indah</h3>
+                    <h3 className="font-semibold text-lg">Robby Fashion</h3>
                     <span className="text-sm bg-primary-100 text-primary-700 px-2 py-1 rounded-full">
                       Toko Utama
                     </span>

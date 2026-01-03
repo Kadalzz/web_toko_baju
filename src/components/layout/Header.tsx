@@ -49,7 +49,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <ShoppingBag className="h-8 w-8 text-primary-600" />
-            <span className="text-xl font-bold text-primary-700">Fashion<span className="text-accent">Store</span></span>
+            <span className="text-xl font-bold text-primary-700">Robby <span className="text-accent">Fashion</span></span>
           </Link>
 
           {/* Desktop Navigation */}
