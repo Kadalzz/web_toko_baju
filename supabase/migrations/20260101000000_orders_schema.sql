@@ -435,12 +435,12 @@ $$ LANGUAGE plpgsql;
 
 -- Insert default categories
 INSERT INTO categories (name, slug, description, sort_order) VALUES
-  ('Cetak Foto', 'cetak-foto', 'Layanan cetak foto berkualitas tinggi', 1),
-  ('Album', 'album', 'Berbagai pilihan album foto', 2),
-  ('Album Bag', 'album-bag', 'Tas album stylish', 3),
-  ('Figura', 'figura', 'Bingkai foto berkualitas', 4),
-  ('Flashdisk', 'flashdisk', 'Flashdisk custom untuk menyimpan foto', 5),
-  ('Wall Decor', 'wall-decor', 'Dekorasi dinding dengan foto', 6),
-  ('Wedding Book', 'wedding-book', 'Buku pernikahan eksklusif', 7),
-  ('Printing', 'printing', 'Layanan printing profesional', 8)
+  ('Kaos', 'kaos', 'Koleksi kaos pria dan wanita', 1),
+  ('Kemeja', 'kemeja', 'Kemeja formal dan casual', 2),
+  ('Celana', 'celana', 'Celana jeans, chino, dan cargo', 3),
+  ('Jaket', 'jaket', 'Jaket dan hoodie', 4),
+  ('Dress', 'dress', 'Dress wanita untuk berbagai acara', 5),
+  ('Rok', 'rok', 'Rok wanita berbagai model', 6),
+  ('Aksesoris', 'aksesoris', 'Topi, tas, dan aksesoris lainnya', 7),
+  ('Sepatu', 'sepatu', 'Sepatu pria dan wanita', 8)
 ON CONFLICT (slug) DO NOTHING;

@@ -14,14 +14,6 @@ import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import OrderForm from './pages/OrderForm';
 import OrderGuide from './pages/OrderGuide';
-import PrintPhoto from './pages/PrintPhoto';
-import Printing from './pages/Printing';
-import Album from './pages/Album';
-import AlbumBag from './pages/AlbumBag';
-import Figura from './pages/Figura';
-import Flashdisk from './pages/Flashdisk';
-import WallDecor from './pages/WallDecor';
-import WeddingBook from './pages/WeddingBook';
 
 function App() {
   return (
@@ -34,17 +26,8 @@ function App() {
         <Route path="products/:productId" element={<ProductDetail />} />
         <Route path="products/clothing/:productId" element={<ClothingProductDetail />} />
         
-        {/* Photo Services */}
-        <Route path="cetak-foto" element={<PrintPhoto />} />
-        <Route path="printing" element={<Printing />} />
-        
         {/* Product Categories */}
-        <Route path="album" element={<Album />} />
-        <Route path="album-bag" element={<AlbumBag />} />
-        <Route path="figura" element={<Figura />} />
-        <Route path="flashdisk" element={<Flashdisk />} />
-        <Route path="wall-decor" element={<WallDecor />} />
-        <Route path="wedding-book" element={<WeddingBook />} />
+        <Route path="kategori/:categorySlug" element={<Products />} />
         
         {/* Order */}
         <Route path="order" element={<OrderForm />} />
