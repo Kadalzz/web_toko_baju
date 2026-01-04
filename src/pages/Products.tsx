@@ -407,7 +407,7 @@ const Products = () => {
                 <div key={product.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
                   {/* Image */}
                   <div className="relative aspect-[3/4] overflow-hidden">
-                    <Link to={`/products/${product.slug}`}>
+                    <Link to={`/products/clothing/${product.slug}`}>
                       <img
                         src={product.images[0]}
                         alt={product.name}
@@ -443,7 +443,7 @@ const Products = () => {
 
                   {/* Info */}
                   <div className="p-4">
-                    <Link to={`/products/${product.slug}`}>
+                    <Link to={`/products/clothing/${product.slug}`}>
                       <h3 className="font-medium text-gray-900 line-clamp-2 hover:text-primary-600 transition-colors mb-1">
                         {product.name}
                       </h3>
