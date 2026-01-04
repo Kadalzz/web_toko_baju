@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { Link, useSearchParams, useParams } from 'react-router-dom';
 import { Heart, ShoppingBag, Filter, X, ChevronDown, Star } from 'lucide-react';
 import type { Product, Category } from '../types';
 import { useCartStore } from '../stores/cartStore';
@@ -221,11 +221,21 @@ const calculateDiscount = (original: number, discounted: number) => {
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { categorySlug } = useParams();
   const [showFilters, setShowFilters] = useState(false);
   const [sortBy, setSortBy] = useState('newest');
-  const [selectedCategory, setSelectedCategory] = useState<string>(searchParams.get('category') || '');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000]);
   const { addItem, openCart } = useCartStore();
+
+  // Set selected category from URL parameter or query string
+  useEffect(() => {
+    if (categorySlug) {
+      setSelectedCategory(categorySlug);
+    } else {
+      setSelectedCategory(searchParams.get('category') || '');
+    }
+  }, [categorySlug, searchParams]);
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
