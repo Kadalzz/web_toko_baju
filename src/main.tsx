@@ -4,6 +4,13 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 
+// Import seed function untuk development
+import { seedCategories } from './scripts/seedCategories';
+if (import.meta.env.DEV) {
+  (window as any).seedCategories = seedCategories;
+  console.log('💡 Untuk seed data kategori, jalankan: seedCategories()');
+}
+
 console.log('Starting app...');
 
 const rootElement = document.getElementById('root');
