@@ -62,7 +62,7 @@ const CartSidebar = () => {
                 <div key={item.id} className="flex space-x-4 bg-gray-50 rounded-lg p-3">
                   {/* Product Image */}
                   <Link 
-                    to={`/products/${item.slug}`}
+                    to={`/products/clothing/${item.slug}`}
                     onClick={closeCart}
                     className="shrink-0"
                   >
@@ -76,7 +76,7 @@ const CartSidebar = () => {
                   {/* Product Details */}
                   <div className="flex-1 min-w-0">
                     <Link 
-                      to={`/products/${item.slug}`}
+                      to={`/products/clothing/${item.slug}`}
                       onClick={closeCart}
                       className="font-medium text-gray-900 hover:text-primary-600 line-clamp-2"
                     >

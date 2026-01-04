@@ -195,7 +195,7 @@ const FeaturedProducts = () => {
                 </button>
 
                 {/* Product Image */}
-                <Link to={`/products/${product.slug}`}>
+                <Link to={`/products/clothing/${product.slug}`}>
                   <img
                     src={product.images[0]}
                     alt={product.name}
@@ -218,7 +218,7 @@ const FeaturedProducts = () => {
               {/* Product Info */}
               <div className="mt-4">
                 <Link
-                  to={`/products/${product.slug}`}
+                  to={`/products/clothing/${product.slug}`}
                   className="text-gray-900 font-medium hover:text-primary-600 line-clamp-2"
                 >
                   {product.name}

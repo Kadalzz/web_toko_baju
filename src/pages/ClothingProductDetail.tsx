@@ -610,7 +610,7 @@ const ClothingProductDetail = () => {
               .map((relatedProduct) => (
                 <Link
                   key={relatedProduct.id}
-                  to={`/products/${relatedProduct.slug}`}
+                  to={`/products/clothing/${relatedProduct.slug}`}
                   className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div className="aspect-[3/4] overflow-hidden">
