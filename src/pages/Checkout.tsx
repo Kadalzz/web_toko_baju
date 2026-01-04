@@ -93,6 +93,8 @@ const Checkout = () => {
         phone: formData.phone
       };
 
+      console.log('Creating customer...', customerData);
+
       // Insert customer first
       const { data: customerResult, error: customerError } = await supabase
         .from('customers')
@@ -100,7 +102,12 @@ const Checkout = () => {
         .select()
         .single();
 
-      if (customerError) throw customerError;
+      if (customerError) {
+        console.error('Customer error:', customerError);
+        throw new Error(`Gagal membuat customer: ${customerError.message}`);
+      }
+
+      console.log('Customer created:', customerResult);
 
       // Prepare order data
       const orderData = {
@@ -122,6 +129,8 @@ const Checkout = () => {
         notes: formData.notes || null
       };
 
+      console.log('Creating order...', orderData);
+
       // Insert order
       const { data: orderResult, error: orderError } = await supabase
         .from('orders')
@@ -129,7 +138,12 @@ const Checkout = () => {
         .select()
         .single();
 
-      if (orderError) throw orderError;
+      if (orderError) {
+        console.error('Order error:', orderError);
+        throw new Error(`Gagal membuat order: ${orderError.message}`);
+      }
+
+      console.log('Order created:', orderResult);
 
       // Insert order items
       const orderItems = items.map(item => ({
@@ -146,11 +160,18 @@ const Checkout = () => {
         custom_notes: null
       }));
 
+      console.log('Creating order items...', orderItems);
+
       const { error: itemsError } = await supabase
         .from('order_items')
         .insert(orderItems);
 
-      if (itemsError) throw itemsError;
+      if (itemsError) {
+        console.error('Order items error:', itemsError);
+        throw new Error(`Gagal membuat order items: ${itemsError.message}`);
+      }
+
+      console.log('Order items created successfully');
 
       // Success
       setOrderId(newOrderId);
@@ -158,7 +179,8 @@ const Checkout = () => {
       clearCart();
     } catch (error) {
       console.error('Error creating order:', error);
-      alert('Gagal membuat pesanan. Silakan coba lagi.');
+      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan. Silakan coba lagi.';
+      alert(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
