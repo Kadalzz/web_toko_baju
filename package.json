@@ -1,8 +1,8 @@
 {
-  "name": "fashion-store",
+  "name": "alba-ganti-baju",
   "private": true,
   "version": "1.0.0",
-  "description": "Website e-commerce modern untuk penjualan baju dengan React, TypeScript, Tailwind CSS, dan Supabase",
+  "description": "Alba Ganti Baju - Website e-commerce modern untuk penjualan baju dengan React, TypeScript, Tailwind CSS, dan Supabase",
   "type": "module",
   "scripts": {
     "dev": "vite",

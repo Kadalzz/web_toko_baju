@@ -145,7 +145,7 @@ const Footer = () => {
         <div className="container mx-auto px-4 md:px-6 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-500 text-sm">
-              © {new Date().getFullYear()} Fashion Store. Hak Cipta Dilindungi.
+              © {new Date().getFullYear()} Alba Ganti Baju. Hak Cipta Dilindungi.
             </p>
           </div>
         </div>

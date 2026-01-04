@@ -29,7 +29,7 @@ const About = () => {
       <div className="container">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="heading-2 mb-6">Tentang Robby Fashion</h1>
+          <h1 className="heading-2 mb-6">Tentang Alba Ganti Baju</h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Sejak 2008, kami telah membantu ribuan pelanggan mengabadikan momen berharga mereka melalui cetakan foto berkualitas tinggi dan layanan desain profesional.
           </p>
@@ -119,7 +119,7 @@ const About = () => {
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <h3 className="font-semibold text-lg">Robby Fashion</h3>
+                    <h3 className="font-semibold text-lg">Alba Ganti Baju</h3>
                     <span className="text-sm bg-primary-100 text-primary-700 px-2 py-1 rounded-full">
                       Toko Utama
                     </span>

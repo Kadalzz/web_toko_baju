@@ -1,5 +1,5 @@
 /*
-  # Schema Toko Baju Online - Robby Fashion
+  # Schema Toko Baju Online - Alba Ganti Baju
   
   Database schema untuk aplikasi e-commerce toko baju dengan fitur:
   - Manajemen produk dan kategori

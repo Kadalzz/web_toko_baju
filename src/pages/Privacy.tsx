@@ -10,7 +10,7 @@ const Privacy = () => {
               <Shield size={16} className="text-primary-600 mr-2" />
               <span className="text-primary-700 text-sm font-medium">Kebijakan Privasi</span>
             </div>
-            <h1 className="heading-2 mb-4">Kebijakan Privasi Robby Fashion</h1>
+            <h1 className="heading-2 mb-4">Kebijakan Privasi Alba Ganti Baju</h1>
             <p className="text-gray-600">
               Terakhir diperbarui: {new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
             </p>

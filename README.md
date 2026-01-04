@@ -1,4 +1,4 @@
-# 🛍️ Fashion Store - Toko Baju Online
+# 🛍️ Alba Ganti Baju - Toko Baju Online
 
 > Website e-commerce modern untuk penjualan baju dengan React, TypeScript, Tailwind CSS, dan Supabase.
 

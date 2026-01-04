@@ -56,7 +56,7 @@ const TestimonialSection = () => {
             Apa Kata Mereka?
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Testimoni dari pelanggan setia kami yang sudah merasakan kualitas produk Fashion Store
+            Testimoni dari pelanggan setia kami yang sudah merasakan kualitas produk Alba Ganti Baju
           </p>
         </div>
 
