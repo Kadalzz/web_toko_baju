@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Facebook, Instagram, Twitter, Mail, Phone, MapPin, CreditCard, Truck, Shield, Clock } from 'lucide-react';
+import { ShoppingBag, Mail, Phone, MapPin, CreditCard, Truck, Shield, Clock } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -53,17 +53,6 @@ const Footer = () => {
               Toko fashion online terpercaya dengan koleksi terlengkap dan harga terbaik. 
               Temukan style terbaikmu bersama kami.
             </p>
-            <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary-500 transition-colors">
-                <Facebook size={20} />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary-500 transition-colors">
-                <Instagram size={20} />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary-500 transition-colors">
-                <Twitter size={20} />
-              </a>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -112,26 +101,6 @@ const Footer = () => {
                   Cara Pemesanan
                 </Link>
               </li>
-              <li>
-                <Link to="/shipping" className="text-gray-400 hover:text-primary-500 transition-colors text-sm">
-                  Pengiriman
-                </Link>
-              </li>
-              <li>
-                <Link to="/return-policy" className="text-gray-400 hover:text-primary-500 transition-colors text-sm">
-                  Pengembalian
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="text-gray-400 hover:text-primary-500 transition-colors text-sm">
-                  Kebijakan Privasi
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="text-gray-400 hover:text-primary-500 transition-colors text-sm">
-                  Syarat & Ketentuan
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -167,24 +136,6 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-
-            {/* Newsletter */}
-            <div className="mt-6">
-              <h4 className="text-white font-medium mb-2">Newsletter</h4>
-              <form className="flex">
-                <input
-                  type="email"
-                  placeholder="Email Anda"
-                  className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-lg text-sm focus:outline-none focus:border-primary-500"
-                />
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-primary-600 text-white rounded-r-lg hover:bg-primary-700 transition-colors text-sm"
-                >
-                  Daftar
-                </button>
-              </form>
-            </div>
           </div>
         </div>
       </div>
@@ -196,12 +147,6 @@ const Footer = () => {
             <p className="text-gray-500 text-sm">
               © {new Date().getFullYear()} Fashion Store. Hak Cipta Dilindungi.
             </p>
-            <div className="flex items-center space-x-4">
-              <img src="https://placehold.co/40x25/2563eb/white?text=VISA" alt="Visa" className="h-6" />
-              <img src="https://placehold.co/40x25/2563eb/white?text=MC" alt="Mastercard" className="h-6" />
-              <img src="https://placehold.co/40x25/2563eb/white?text=BCA" alt="BCA" className="h-6" />
-              <img src="https://placehold.co/40x25/2563eb/white?text=OVO" alt="OVO" className="h-6" />
-            </div>
           </div>
         </div>
       </div>

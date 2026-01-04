@@ -39,11 +39,6 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
-      {/* Top Bar */}
-      <div className="bg-primary-600 text-white py-2 text-center text-sm">
-        <p>🎉 Gratis Ongkir untuk pembelian di atas Rp 500.000!</p>
-      </div>
-
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
