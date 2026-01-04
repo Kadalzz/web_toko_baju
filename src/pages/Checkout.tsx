@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, CreditCard, Truck, MapPin, Check, AlertCircle, Smartphone } from 'lucide-react';
 import { useCartStore, CartItem } from '../stores/cartStore';
+import { supabase } from '../lib/supabase';
 
 interface CheckoutForm {
   // Info Pembeli
@@ -79,14 +80,88 @@ const Checkout = () => {
     
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const newOrderId = generateOrderId();
-    setOrderId(newOrderId);
-    setOrderSuccess(true);
-    clearCart();
-    setIsSubmitting(false);
+    try {
+      const newOrderId = generateOrderId();
+      const subtotal = getSubtotal();
+      const shippingCost = getShippingCost();
+      const total = getTotal();
+      
+      // Prepare customer data
+      const customerData = {
+        full_name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone
+      };
+
+      // Insert customer first
+      const { data: customerResult, error: customerError } = await supabase
+        .from('customers')
+        .insert([customerData])
+        .select()
+        .single();
+
+      if (customerError) throw customerError;
+
+      // Prepare order data
+      const orderData = {
+        order_number: newOrderId,
+        customer_id: customerResult.id,
+        shipping_name: formData.fullName,
+        shipping_phone: formData.phone,
+        shipping_address: formData.address,
+        shipping_city: formData.city,
+        shipping_province: formData.province,
+        shipping_postal_code: formData.postalCode,
+        subtotal: subtotal,
+        shipping_cost: shippingCost,
+        discount: 0,
+        total: total,
+        payment_method: formData.paymentMethod === 'transfer' ? 'bank_transfer' : formData.paymentMethod,
+        payment_status: 'pending',
+        order_status: 'pending',
+        notes: formData.notes || null
+      };
+
+      // Insert order
+      const { data: orderResult, error: orderError } = await supabase
+        .from('orders')
+        .insert([orderData])
+        .select()
+        .single();
+
+      if (orderError) throw orderError;
+
+      // Insert order items
+      const orderItems = items.map(item => ({
+        order_id: orderResult.id,
+        product_id: null, // We don't have product_id from cart
+        product_name: item.name,
+        product_image: item.image,
+        variant_size: item.size,
+        variant_color: item.color,
+        quantity: item.quantity,
+        unit_price: item.price,
+        total_price: item.price * item.quantity,
+        custom_images: '[]',
+        custom_notes: null
+      }));
+
+      const { error: itemsError } = await supabase
+        .from('order_items')
+        .insert(orderItems);
+
+      if (itemsError) throw itemsError;
+
+      // Success
+      setOrderId(newOrderId);
+      setOrderSuccess(true);
+      clearCart();
+    } catch (error) {
+      console.error('Error creating order:', error);
+      alert('Gagal membuat pesanan. Silakan coba lagi.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
