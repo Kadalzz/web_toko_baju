@@ -315,9 +315,10 @@ ALTER TABLE payments ENABLE ROW LEVEL SECURITY;
 -- RLS POLICIES - CATEGORIES
 -- ============================================
 
--- Semua orang bisa lihat kategori aktif
-CREATE POLICY "Public can view active categories"
+-- Semua orang (anonymous + authenticated) bisa lihat kategori aktif
+CREATE POLICY "Anyone can view active categories"
   ON categories FOR SELECT
+  TO public
   USING (is_active = true);
 
 -- Admin bisa kelola semua kategori
@@ -331,9 +332,10 @@ CREATE POLICY "Admin can manage categories"
 -- RLS POLICIES - PRODUCTS
 -- ============================================
 
--- Semua orang bisa lihat produk aktif
-CREATE POLICY "Public can view active products"
+-- Semua orang (anonymous + authenticated) bisa lihat produk aktif
+CREATE POLICY "Anyone can view active products"
   ON products FOR SELECT
+  TO public
   USING (is_active = true);
 
 -- Admin bisa kelola semua produk
