@@ -13,6 +13,7 @@ import Terms from './pages/Terms';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Account from './pages/Account';
+import Wishlist from './pages/Wishlist';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import OrderForm from './pages/OrderForm';
@@ -52,6 +53,7 @@ function App() {
         
         {/* Account */}
         <Route path="account" element={<Account />} />
+        <Route path="wishlist" element={<Wishlist />} />
       </Route>
       
       {/* Auth */}
