@@ -8,126 +8,77 @@ import { supabase } from '../lib/supabase';
 import type { User, Address, LoginCredentials, RegisterData } from '../types';
 
 // ============================================
-// AUTHENTICATION
+// AUTHENTICATION (Custom Users Table)
 // ============================================
 
 /**
- * Register new user
+ * Register new user (using custom users table)
  */
 export const registerUser = async (data: RegisterData): Promise<User> => {
-  const { data: authData, error: authError } = await supabase.auth.signUp({
-    email: data.email,
-    password: data.password,
-    options: {
-      data: {
-        full_name: data.full_name,
-        phone: data.phone,
-      },
-    },
-  });
+  // Check if email already exists
+  const { data: existingUser } = await supabase
+    .from('users')
+    .select('email')
+    .eq('email', data.email)
+    .single();
 
-  if (authError) {
-    throw new Error(authError.message);
+  if (existingUser) {
+    throw new Error('Email sudah terdaftar');
   }
 
-  if (!authData.user) {
-    throw new Error('Registration failed');
-  }
-
-  // Create profile
-  const { data: profile, error: profileError } = await supabase
-    .from('profiles')
+  // Insert new user
+  const { data: newUser, error } = await supabase
+    .from('users')
     .insert({
-      id: authData.user.id,
       email: data.email,
+      password: data.password, // Note: Should be hashed in production!
       full_name: data.full_name,
       phone: data.phone,
-      role: 'customer',
-      is_active: true,
     })
     .select()
     .single();
 
-  if (profileError) {
-    throw new Error(profileError.message);
+  if (error) {
+    throw new Error(error.message);
   }
 
-  return profile as User;
+  return newUser as User;
 };
 
 /**
- * Login user
+ * Login user (using custom users table)
  */
 export const loginUser = async (credentials: LoginCredentials): Promise<User> => {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: credentials.email,
-    password: credentials.password,
-  });
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('email', credentials.email)
+    .eq('password', credentials.password) // Note: Should use hashed password in production!
+    .single();
 
-  if (error) {
-    throw new Error(error.message);
+  if (error || !data) {
+    throw new Error('Email atau password salah');
   }
 
-  if (!data.user) {
-    throw new Error('Login failed');
-  }
-
-  // Get profile
-  const profile = await getUserProfile();
-  if (!profile) {
-    throw new Error('User profile not found');
-  }
-
-  return profile;
+  return data as User;
 };
 
 /**
- * Logout user
+ * Logout user (clear local storage)
  */
 export const logoutUser = async (): Promise<void> => {
-  const { error } = await supabase.auth.signOut();
-  if (error) {
-    throw new Error(error.message);
-  }
+  // No server-side logout needed for custom auth
+  // Just clear local storage (handled by store)
+  return Promise.resolve();
 };
 
 /**
- * Get current authenticated user
+ * Get current authenticated user from localStorage
  */
 export const getCurrentUser = async (): Promise<User | null> => {
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) {
-    return null;
-  }
-
-  return getUserProfile();
-};
-
-/**
- * Reset password
- */
-export const resetPassword = async (email: string): Promise<void> => {
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}/reset-password`,
-  });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-};
-
-/**
- * Update password
- */
-export const updatePassword = async (newPassword: string): Promise<void> => {
-  const { error } = await supabase.auth.updateUser({
-    password: newPassword,
-  });
-
-  if (error) {
-    throw new Error(error.message);
-  }
+  // User data is stored in localStorage by authStore
+  // This is just a placeholder - actual data comes from store
+  return null;
 };
 
 // ============================================

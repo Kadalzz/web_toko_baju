@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ShoppingBag, Eye, EyeOff, ArrowLeft } from 'lucide-react';
-import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../stores/authStore';
 
 const Login = () => {
@@ -29,24 +28,9 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      // Cari user berdasarkan email dan password
-      const { data: users, error: queryError } = await supabase
-        .from('users')
-        .select('*')
-        .eq('email', formData.email)
-        .eq('password', formData.password) // CATATAN: Di production, gunakan hashing!
-        .single();
-
-      if (queryError || !users) {
-        throw new Error('Email atau password salah');
-      }
-
-      // Simpan data user ke store
-      login({
-        id: users.id,
-        email: users.email,
-        full_name: users.full_name,
-        phone: users.phone
+      await login({
+        email: formData.email,
+        password: formData.password
       });
 
       alert('Login berhasil!');
