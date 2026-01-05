@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, LogOut, User, Package, ExternalLink, Search } from 'lucide-react';
+import { FileText, LogOut, User, Package, DollarSign, Search, Phone } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 interface Order {
   id: string;
-  order_id: string;
-  customer_details: string;
-  drive_link: string;
-  date: string;
-  status: string;
+  order_number: string;
+  shipping_name: string;
+  shipping_phone: string;
+  shipping_address: string;
+  shipping_city: string;
+  total: number;
+  payment_method: string;
+  payment_status: string;
+  order_status: string;
   created_at: string;
 }
 
@@ -65,51 +69,51 @@ const AdminDashboard = () => {
     try {
       const { error } = await supabase
         .from('orders')
-        .update({ status: newStatus })
-        .eq('order_id', orderId);
+        .update({ order_status: newStatus })
+        .eq('id', orderId);
 
       if (error) {
         throw error;
       }
 
       const updatedOrders = orders.map(order => 
-        order.order_id === orderId ? { ...order, status: newStatus } : order
+        order.id === orderId ? { ...order, order_status: newStatus } : order
       );
       setOrders(updatedOrders);
       
-      console.log('Status berhasil diupdate');
+      alert('Status berhasil diupdate!');
+      loadOrders();
     } catch (err) {
       console.error('Error updating order status:', err);
       setError('Gagal mengupdate status pesanan. Silakan coba lagi.');
     }
   };
 
-  const parseCustomerDetails = (customerDetails: string) => {
-    try {
-      const parsed = JSON.parse(customerDetails);
-      return {
-        name: parsed.name || 'N/A',
-        email: parsed.email || 'N/A',
-        whatsapp: parsed.whatsapp || parsed.phone || 'N/A'
-      };
-    } catch {
-      return {
-        name: customerDetails,
-        email: 'N/A',
-        whatsapp: 'N/A'
-      };
-    }
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
   const filteredOrders = orders.filter(order => {
-    const customerData = parseCustomerDetails(order.customer_details);
     const matchesSearch = 
-      order.order_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customerData.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customerData.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customerData.whatsapp.toLowerCase().includes(searchTerm.toLowerCase());
+      order.order_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.shipping_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.shipping_phone.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
+    const matchesStatus = filterStatus === 'all' || order.order_status === filterStatus;
     
     return matchesSearch && matchesStatus;
   });
@@ -118,9 +122,12 @@ const AdminDashboard = () => {
     switch (status) {
       case 'pending':
         return 'bg-yellow-100 text-yellow-800';
+      case 'confirmed':
       case 'processing':
         return 'bg-blue-100 text-blue-800';
-      case 'completed':
+      case 'shipped':
+        return 'bg-purple-100 text-purple-800';
+      case 'delivered':
         return 'bg-green-100 text-green-800';
       case 'cancelled':
         return 'bg-red-100 text-red-800';
@@ -129,15 +136,14 @@ const AdminDashboard = () => {
     }
   };
 
-  const getUniqueCustomers = () => {
-    const customerEmails = new Set();
-    orders.forEach(order => {
-      const customerData = parseCustomerDetails(order.customer_details);
-      if (customerData.email !== 'N/A') {
-        customerEmails.add(customerData.email);
-      }
-    });
-    return customerEmails.size;
+  const getTotalRevenue = () => {
+    return orders
+      .filter(o => o.payment_status === 'paid')
+      .reduce((sum, order) => sum + order.total, 0);
+  };
+
+  const getPendingOrders = () => {
+    return orders.filter(o => o.order_status === 'pending').length;
   };
 
   if (isLoading) {
@@ -185,19 +191,19 @@ const AdminDashboard = () => {
         )}
 
         {/* Stats */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-4 mb-6">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 mb-6">
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <Package className="h-6 w-6 text-gray-400" />
+                  <Package className="h-6 w-6 text-blue-600" />
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
                     <dt className="text-sm font-medium text-gray-500 truncate">
-                      Total Orders
+                      Total Pesanan
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900">
+                    <dd className="text-2xl font-bold text-gray-900">
                       {orders.length}
                     </dd>
                   </dl>
@@ -210,15 +216,15 @@ const AdminDashboard = () => {
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <FileText className="h-6 w-6 text-gray-400" />
+                  <FileText className="h-6 w-6 text-yellow-600" />
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
                     <dt className="text-sm font-medium text-gray-500 truncate">
-                      Pending Orders
+                      Pending
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900">
-                      {orders.filter(order => order.status === 'pending').length}
+                    <dd className="text-2xl font-bold text-gray-900">
+                      {getPendingOrders()}
                     </dd>
                   </dl>
                 </div>
@@ -230,41 +236,23 @@ const AdminDashboard = () => {
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <Package className="h-6 w-6 text-gray-400" />
+                  <DollarSign className="h-6 w-6 text-green-600" />
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
                     <dt className="text-sm font-medium text-gray-500 truncate">
-                      Processing Orders
+                      Total Revenue
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900">
-                      {orders.filter(order => order.status === 'processing').length}
+                    <dd className="text-2xl font-bold text-gray-900">
+                      {formatPrice(getTotalRevenue())}
                     </dd>
                   </dl>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <User className="h-6 w-6 text-gray-400" />
-                </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">
-                      Total Customers
-                    </dt>
-                    <dd className="text-lg font-medium text-gray-900">
-                      {getUniqueCustomers()}
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div className="bg-white shadow rounded-lg mb-6">
@@ -291,7 +279,8 @@ const AdminDashboard = () => {
                   <option value="all">All Status</option>
                   <option value="pending">Pending</option>
                   <option value="processing">Processing</option>
-                  <option value="completed">Completed</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="delivered">Delivered</option>
                   <option value="cancelled">Cancelled</option>
                 </select>
               </div>
@@ -309,19 +298,22 @@ const AdminDashboard = () => {
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Order ID
+                      Order Number
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Customer Details
+                      Customer
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Drive Link
+                      Total
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Date
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
+                      Order Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Payment Status
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
@@ -330,55 +322,43 @@ const AdminDashboard = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredOrders.map((order) => {
-                    const customerData = parseCustomerDetails(order.customer_details);
                     return (
                       <tr key={order.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {order.order_id}
+                          {order.order_number}
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900">{customerData.name}</div>
-                          <div className="text-sm text-gray-500">{customerData.email}</div>
-                          <div className="text-sm text-gray-500">{customerData.whatsapp}</div>
+                          <div className="text-sm text-gray-900">{order.shipping_name}</div>
+                          <div className="text-sm text-gray-500">{order.shipping_phone}</div>
                         </td>
-                        <td className="px-6 py-4">
-                          {order.drive_link ? (
-                            <a
-                              href={order.drive_link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:text-blue-900 inline-flex items-center text-sm"
-                            >
-                              View Files
-                              <ExternalLink size={14} className="ml-1" />
-                            </a>
-                          ) : (
-                            <span className="text-gray-400 text-sm">No link</span>
-                          )}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {formatPrice(order.total)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {new Date(order.date || order.created_at).toLocaleDateString('id-ID', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
+                          {formatDate(order.created_at)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                            {order.status}
+                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.order_status)}`}>
+                            {order.order_status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            order.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {order.payment_status}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           <select
-                            value={order.status}
-                            onChange={(e) => updateOrderStatus(order.order_id, e.target.value)}
+                            value={order.order_status}
+                            onChange={(e) => updateOrderStatus(order.order_number, e.target.value)}
                             className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                           >
                             <option value="pending">Pending</option>
                             <option value="processing">Processing</option>
-                            <option value="completed">Completed</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="delivered">Delivered</option>
                             <option value="cancelled">Cancelled</option>
                           </select>
                         </td>
