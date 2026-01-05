@@ -12,6 +12,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Account from './pages/Account';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import OrderForm from './pages/OrderForm';
@@ -48,6 +49,9 @@ function App() {
         <Route path="faq" element={<FAQ />} />
         <Route path="kebijakan-privasi" element={<Privacy />} />
         <Route path="syarat-ketentuan" element={<Terms />} />
+        
+        {/* Account */}
+        <Route path="account" element={<Account />} />
       </Route>
       
       {/* Auth */}
