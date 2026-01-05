@@ -72,12 +72,11 @@ const Home = () => {
           <h2 className="text-2xl font-bold text-center mb-8">
             Pilih Kategori Sesuai Kebutuhanmu
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {[
               { name: 'Wanita', image: 'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400', color: 'bg-red-50' },
               { name: 'Pria', image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=400', color: 'bg-orange-50' },
               { name: 'Anak', image: 'https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=400', color: 'bg-yellow-50' },
-              { name: 'Beauty', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400', color: 'bg-pink-50' },
               { name: 'Sport', image: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=400', color: 'bg-green-50' },
               { name: 'Luxury', image: 'https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?w=400', color: 'bg-purple-50' },
             ].map((category) => (
