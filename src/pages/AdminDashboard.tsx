@@ -109,9 +109,9 @@ const AdminDashboard = () => {
 
   const filteredOrders = orders.filter(order => {
     const matchesSearch = 
-      order.order_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.shipping_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.shipping_phone.toLowerCase().includes(searchTerm.toLowerCase());
+      order.order_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.shipping_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.shipping_phone?.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesStatus = filterStatus === 'all' || order.order_status === filterStatus;
     
@@ -253,8 +253,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        </div>
-
+        {/* Search and Filter */}
         <div className="bg-white shadow rounded-lg mb-6">
           <div className="p-4">
             <div className="flex flex-col md:flex-row gap-4">
