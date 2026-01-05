@@ -16,9 +16,6 @@ interface CheckoutForm {
   province: string;
   postalCode: string;
   notes: string;
-  
-  // Metode Pembayaran
-  paymentMethod: 'transfer' | 'cod' | 'ewallet';
 }
 
 const Checkout = () => {
@@ -32,8 +29,7 @@ const Checkout = () => {
     city: '',
     province: '',
     postalCode: '',
-    notes: '',
-    paymentMethod: 'transfer'
+    notes: ''
   });
   
   const [errors, setErrors] = useState<Partial<CheckoutForm>>({});
@@ -123,7 +119,7 @@ const Checkout = () => {
         shipping_cost: shippingCost,
         discount: 0,
         total: total,
-        payment_method: formData.paymentMethod === 'transfer' ? 'bank_transfer' : formData.paymentMethod,
+        payment_method: 'whatsapp',
         payment_status: 'pending',
         order_status: 'pending',
         notes: formData.notes || null
@@ -173,10 +169,33 @@ const Checkout = () => {
 
       console.log('Order items created successfully');
 
-      // Success
-      setOrderId(newOrderId);
-      setOrderSuccess(true);
+      // Success - Redirect to WhatsApp
+      const whatsappNumber = '6282142388292';
+      let itemsList = items.map((item, index) => 
+        `${index + 1}. ${item.name} (${item.size}, ${item.color}) x${item.quantity} = ${formatPrice(item.price * item.quantity)}`
+      ).join('\n');
+      
+      const whatsappMessage = `🛍️ *PESANAN BARU*\n\n` +
+        `📦 *Nomor Pesanan:* ${newOrderId}\n\n` +
+        `👤 *Data Pembeli:*\n` +
+        `Nama: ${formData.fullName}\n` +
+        `Email: ${formData.email}\n` +
+        `HP: ${formData.phone}\n\n` +
+        `📍 *Alamat Pengiriman:*\n` +
+        `${formData.address}\n` +
+        `${formData.city}, ${formData.province} ${formData.postalCode}\n` +
+        `${formData.notes ? `Catatan: ${formData.notes}\n` : ''}\n` +
+        `🛒 *Detail Pesanan:*\n${itemsList}\n\n` +
+        `💰 *Ringkasan:*\n` +
+        `Subtotal: ${formatPrice(subtotal)}\n` +
+        `Ongkir: ${shippingCost === 0 ? 'GRATIS' : formatPrice(shippingCost)}\n` +
+        `*TOTAL: ${formatPrice(total)}*\n\n` +
+        `Mohon konfirmasi pesanan dan info pembayaran. Terima kasih! 🙏`;
+      
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+      
       clearCart();
+      window.location.href = whatsappUrl;
     } catch (error) {
       console.error('Error creating order:', error);
       const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan. Silakan coba lagi.';
@@ -465,84 +484,42 @@ const Checkout = () => {
                 </div>
               </div>
 
-              {/* Metode Pembayaran */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                  <CreditCard className="h-5 w-5 mr-2 text-primary-600" />
-                  Metode Pembayaran
+              {/* Info WhatsApp */}
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 shadow-sm">
+                <h2 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                  <svg className="w-6 h-6 mr-2 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                  Pembayaran via WhatsApp
                 </h2>
-                <div className="space-y-3">
-                  <label className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
-                    formData.paymentMethod === 'transfer' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300'
-                  }`}>
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="transfer"
-                      checked={formData.paymentMethod === 'transfer'}
-                      onChange={handleChange}
-                      className="sr-only"
-                    />
-                    <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center ${
-                      formData.paymentMethod === 'transfer' ? 'border-primary-600' : 'border-gray-300'
-                    }`}>
-                      {formData.paymentMethod === 'transfer' && (
-                        <div className="w-2.5 h-2.5 rounded-full bg-primary-600" />
-                      )}
+                <div className="bg-white rounded-lg p-4 space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold text-sm mt-0.5">
+                      1
                     </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">Transfer Bank</p>
-                      <p className="text-sm text-gray-500">BCA, Mandiri, BNI, BRI</p>
+                    <p className="text-sm text-gray-700">Klik tombol <strong>"Pesan via WhatsApp"</strong> di bawah</p>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold text-sm mt-0.5">
+                      2
                     </div>
-                  </label>
-
-                  <label className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
-                    formData.paymentMethod === 'ewallet' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300'
-                  }`}>
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="ewallet"
-                      checked={formData.paymentMethod === 'ewallet'}
-                      onChange={handleChange}
-                      className="sr-only"
-                    />
-                    <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center ${
-                      formData.paymentMethod === 'ewallet' ? 'border-primary-600' : 'border-gray-300'
-                    }`}>
-                      {formData.paymentMethod === 'ewallet' && (
-                        <div className="w-2.5 h-2.5 rounded-full bg-primary-600" />
-                      )}
+                    <p className="text-sm text-gray-700">Anda akan diarahkan ke chat WhatsApp dengan admin</p>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold text-sm mt-0.5">
+                      3
                     </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">E-Wallet</p>
-                      <p className="text-sm text-gray-500">GoPay, OVO, DANA, ShopeePay</p>
+                    <p className="text-sm text-gray-700">Admin akan memberikan detail pembayaran & konfirmasi pesanan</p>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold text-sm mt-0.5">
+                      4
                     </div>
-                  </label>
-
-                  <label className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
-                    formData.paymentMethod === 'cod' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300'
-                  }`}>
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="cod"
-                      checked={formData.paymentMethod === 'cod'}
-                      onChange={handleChange}
-                      className="sr-only"
-                    />
-                    <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center ${
-                      formData.paymentMethod === 'cod' ? 'border-primary-600' : 'border-gray-300'
-                    }`}>
-                      {formData.paymentMethod === 'cod' && (
-                        <div className="w-2.5 h-2.5 rounded-full bg-primary-600" />
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">COD (Bayar di Tempat)</p>
-                      <p className="text-sm text-gray-500">Bayar saat barang sampai</p>
-                    </div>
-                  </label>
+                    <p className="text-sm text-gray-700">Lakukan pembayaran dan kirim bukti transfer</p>
+                  </div>
+                </div>
+                <div className="mt-4 bg-green-100 border border-green-300 rounded-lg p-3">
+                  <p className="text-sm text-green-800 font-medium">💡 Pesanan Anda akan segera diproses setelah pembayaran dikonfirmasi</p>
                 </div>
               </div>
             </div>
@@ -609,7 +586,7 @@ const Checkout = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-6 w-full py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                  className="mt-6 w-full py-3.5 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg"
                 >
                   {isSubmitting ? (
                     <>
@@ -620,7 +597,12 @@ const Checkout = () => {
                       Memproses...
                     </>
                   ) : (
-                    'Buat Pesanan'
+                    <>
+                      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                      </svg>
+                      Pesan via WhatsApp
+                    </>
                   )}
                 </button>
 
