@@ -15,6 +15,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import OrderForm from './pages/OrderForm';
 import OrderGuide from './pages/OrderGuide';
 import Categories from './pages/Categories';
+import OrderStatus from './pages/OrderStatus';
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
         <Route path="order" element={<OrderForm />} />
         <Route path="panduan-order" element={<OrderGuide />} />
         <Route path="checkout" element={<Checkout />} />
+        <Route path="order-status" element={<OrderStatus />} />
+        <Route path="lacak-pesanan" element={<OrderStatus />} />
         
         {/* Info Pages */}
         <Route path="about" element={<About />} />
