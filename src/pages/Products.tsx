@@ -3,6 +3,8 @@ import { Link, useSearchParams, useParams } from 'react-router-dom';
 import { Heart, ShoppingBag, Filter, X, ChevronDown, Star } from 'lucide-react';
 import type { Product, Category } from '../types';
 import { useCartStore } from '../stores/cartStore';
+import { useAuthStore } from '../stores/authStore';
+import { supabase } from '../lib/supabase';
 
 // Dummy products data
 const allProducts: Product[] = [
@@ -226,7 +228,79 @@ const Products = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000]);
+  const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set());
   const { addItem, openCart } = useCartStore();
+  const { user, isAuthenticated } = useAuthStore();
+
+  // Load wishlist IDs
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      loadWishlist();
+    }
+  }, [isAuthenticated, user]);
+
+  const loadWishlist = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('wishlist')
+        .select('product_id, product_name')
+        .eq('user_id', user?.id);
+
+      if (!error && data) {
+        const ids = new Set(data.map(item => item.product_id || item.product_name));
+        setWishlistIds(ids);
+      }
+    } catch (err) {
+      console.error('Error loading wishlist:', err);
+    }
+  };
+
+  const toggleWishlist = async (product: Product) => {
+    if (!isAuthenticated) {
+      alert('Silakan login terlebih dahulu untuk menambahkan ke wishlist');
+      return;
+    }
+
+    const productIdentifier = product.id;
+    const isInWishlist = wishlistIds.has(productIdentifier);
+
+    try {
+      if (isInWishlist) {
+        // Remove from wishlist
+        const { error } = await supabase
+          .from('wishlist')
+          .delete()
+          .eq('user_id', user?.id)
+          .or(`product_id.eq.${product.id},product_name.eq.${product.name}`);
+
+        if (error) throw error;
+
+        setWishlistIds(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(productIdentifier);
+          return newSet;
+        });
+      } else {
+        // Add to wishlist
+        const { error } = await supabase
+          .from('wishlist')
+          .insert({
+            user_id: user?.id,
+            product_id: product.id,
+            product_name: product.name,
+            product_image: product.images[0],
+            product_price: product.discount_price || product.price
+          });
+
+        if (error) throw error;
+
+        setWishlistIds(prev => new Set(prev).add(productIdentifier));
+      }
+    } catch (err) {
+      console.error('Error toggling wishlist:', err);
+      alert('Gagal memperbarui wishlist');
+    }
+  };
 
   // Set selected category from URL parameter or query string
   useEffect(() => {
@@ -424,8 +498,21 @@ const Products = () => {
 
                     {/* Wishlist & Quick Add */}
                     <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors">
-                        <Heart className="h-4 w-4 text-gray-600" />
+                      <button 
+                        onClick={() => toggleWishlist(product)}
+                        className={`p-2 rounded-full shadow-md transition-colors ${
+                          wishlistIds.has(product.id)
+                            ? 'bg-red-500 hover:bg-red-600'
+                            : 'bg-white hover:bg-gray-100'
+                        }`}
+                      >
+                        <Heart 
+                          className={`h-4 w-4 ${
+                            wishlistIds.has(product.id)
+                              ? 'text-white fill-current'
+                              : 'text-gray-600'
+                          }`} 
+                        />
                       </button>
                     </div>
 
