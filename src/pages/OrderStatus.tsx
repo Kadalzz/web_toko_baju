@@ -149,7 +149,7 @@ const OrderStatus = () => {
     }
   };
 
-  const whatsappNumber = '6281234567890'; // Ganti dengan nomor WhatsApp admin
+  const whatsappNumber = '6282142388292'; // Ganti dengan nomor WhatsApp admin
   const whatsappMessage = `Halo Robby Fashion! 👋\n\nSaya ingin menanyakan status pesanan saya:\n\n📦 *Nomor Pesanan:* ${order?.order_number}\n\nMohon info update status pesanan. Terima kasih!`;
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 

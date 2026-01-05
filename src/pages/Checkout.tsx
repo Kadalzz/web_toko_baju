@@ -222,7 +222,7 @@ const Checkout = () => {
   // Order Success with WhatsApp redirect
   if (orderSuccess) {
     const total = getTotal();
-    const whatsappNumber = '6281234567890'; // Ganti dengan nomor WhatsApp admin Anda
+    const whatsappNumber = '6282142388292'; // Ganti dengan nomor WhatsApp admin Anda
     const whatsappMessage = `Halo Robby Fashion! 👋\n\nSaya ingin melakukan pembayaran untuk pesanan:\n\n📦 *Nomor Pesanan:* ${orderId}\n💰 *Total:* ${formatPrice(total)}\n👤 *Nama:* ${formData.fullName}\n📱 *HP:* ${formData.phone}\n\nMohon info detail pembayaran. Terima kasih!`;
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
