@@ -119,7 +119,7 @@ const Checkout = () => {
         shipping_cost: shippingCost,
         discount: 0,
         total: total,
-        payment_method: 'whatsapp',
+        payment_method: 'bank_transfer',
         payment_status: 'pending',
         order_status: 'pending',
         notes: formData.notes || null
