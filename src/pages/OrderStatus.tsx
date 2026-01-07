@@ -51,6 +51,42 @@ const OrderStatus = () => {
     }
   }, [orderIdFromUrl]);
 
+  // Auto-refresh setiap 10 detik jika ada order yang ditampilkan
+  useEffect(() => {
+    if (!order) return;
+
+    const interval = setInterval(() => {
+      // Refresh order data secara background
+      refreshOrder();
+    }, 10000); // 10 detik
+
+    return () => clearInterval(interval);
+  }, [order]);
+
+  const refreshOrder = async () => {
+    if (!order) return;
+
+    try {
+      const { data: orderData, error: orderError } = await supabase
+        .from('orders')
+        .select(`
+          *,
+          order_items (*)
+        `)
+        .eq('order_number', order.order_number)
+        .single();
+
+      if (orderError || !orderData) {
+        console.error('Error refreshing order:', orderError);
+        return;
+      }
+
+      setOrder(orderData as Order);
+    } catch (err) {
+      console.error('Error refreshing order:', err);
+    }
+  };
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',

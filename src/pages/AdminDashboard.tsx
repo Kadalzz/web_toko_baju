@@ -69,23 +69,53 @@ const AdminDashboard = () => {
     try {
       const { error } = await supabase
         .from('orders')
-        .update({ order_status: newStatus })
+        .update({ 
+          order_status: newStatus,
+          updated_at: new Date().toISOString()
+        })
         .eq('id', orderId);
 
       if (error) {
         throw error;
       }
 
+      // Update local state
       const updatedOrders = orders.map(order => 
         order.id === orderId ? { ...order, order_status: newStatus } : order
       );
       setOrders(updatedOrders);
       
-      alert('Status berhasil diupdate!');
-      loadOrders();
+      alert('Status pesanan berhasil diperbarui!');
     } catch (err) {
       console.error('Error updating order status:', err);
-      setError('Gagal mengupdate status pesanan. Silakan coba lagi.');
+      alert('Gagal mengupdate status pesanan. Silakan coba lagi.');
+    }
+  };
+
+  const updatePaymentStatus = async (orderId: string, newStatus: string) => {
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .update({ 
+          payment_status: newStatus,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', orderId);
+
+      if (error) {
+        throw error;
+      }
+
+      // Update local state
+      const updatedOrders = orders.map(order => 
+        order.id === orderId ? { ...order, payment_status: newStatus } : order
+      );
+      setOrders(updatedOrders);
+      
+      alert('Status pembayaran berhasil diperbarui!');
+    } catch (err) {
+      console.error('Error updating payment status:', err);
+      alert('Gagal mengupdate status pembayaran. Silakan coba lagi.');
     }
   };
 
@@ -277,6 +307,7 @@ const AdminDashboard = () => {
                 >
                   <option value="all">All Status</option>
                   <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
                   <option value="processing">Processing</option>
                   <option value="shipped">Shipped</option>
                   <option value="delivered">Delivered</option>
@@ -349,17 +380,30 @@ const AdminDashboard = () => {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          <select
-                            value={order.order_status}
-                            onChange={(e) => updateOrderStatus(order.order_number, e.target.value)}
-                            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-                          >
-                            <option value="pending">Pending</option>
-                            <option value="processing">Processing</option>
-                            <option value="shipped">Shipped</option>
-                            <option value="delivered">Delivered</option>
-                            <option value="cancelled">Cancelled</option>
-                          </select>
+                          <div className="space-y-2">
+                            <select
+                              value={order.order_status}
+                              onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="confirmed">Confirmed</option>
+                              <option value="processing">Processing</option>
+                              <option value="shipped">Shipped</option>
+                              <option value="delivered">Delivered</option>
+                              <option value="cancelled">Cancelled</option>
+                            </select>
+                            <select
+                              value={order.payment_status}
+                              onChange={(e) => updatePaymentStatus(order.id, e.target.value)}
+                              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                            >
+                              <option value="pending">Pending Payment</option>
+                              <option value="paid">Paid</option>
+                              <option value="failed">Failed</option>
+                              <option value="refunded">Refunded</option>
+                            </select>
+                          </div>
                         </td>
                       </tr>
                     );
