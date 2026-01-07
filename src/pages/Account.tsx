@@ -43,6 +43,7 @@ const Account = () => {
   // Orders state
   const [orders, setOrders] = useState<Order[]>([]);
   const [orderFilter, setOrderFilter] = useState('all');
+  const [isRefreshing, setIsRefreshing] = useState(false);
   
   // Addresses state
   const [addresses, setAddresses] = useState<Address[]>([]);
@@ -66,8 +67,20 @@ const Account = () => {
     }
   }, [user]);
 
+  // Auto-refresh orders setiap 15 detik ketika di tab orders
+  useEffect(() => {
+    if (activeTab !== 'orders' || !user) return;
+
+    const interval = setInterval(() => {
+      loadOrders();
+    }, 15000); // 15 detik
+
+    return () => clearInterval(interval);
+  }, [activeTab, user]);
+
   const loadOrders = async () => {
     try {
+      setIsRefreshing(true);
       const { data, error } = await supabase
         .from('orders')
         .select('*')
@@ -79,6 +92,8 @@ const Account = () => {
       }
     } catch (err) {
       console.error('Error loading orders:', err);
+    } finally {
+      setIsRefreshing(false);
     }
   };
 
@@ -158,6 +173,7 @@ const Account = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'confirmed': return 'bg-blue-100 text-blue-800';
       case 'processing': return 'bg-blue-100 text-blue-800';
       case 'shipped': return 'bg-purple-100 text-purple-800';
       case 'delivered': return 'bg-green-100 text-green-800';
@@ -310,10 +326,21 @@ const Account = () => {
               {/* Orders Tab */}
               {activeTab === 'orders' && (
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900 mb-6">Riwayat Pesanan</h2>
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold text-gray-900">Riwayat Pesanan</h2>
+                    {isRefreshing && (
+                      <span className="text-sm text-gray-500 flex items-center">
+                        <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Memperbarui...
+                      </span>
+                    )}
+                  </div>
                   
                   <div className="mb-4 flex space-x-2 overflow-x-auto pb-2">
-                    {['all', 'pending', 'processing', 'shipped', 'delivered', 'cancelled'].map(status => (
+                    {['all', 'pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'].map(status => (
                       <button
                         key={status}
                         onClick={() => setOrderFilter(status)}
@@ -342,10 +369,19 @@ const Account = () => {
                               <p className="font-semibold text-gray-900">{order.order_number}</p>
                               <p className="text-sm text-gray-500">{formatDate(order.created_at)}</p>
                             </div>
-                            <div className="text-right">
-                              <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.order_status)}`}>
-                                {order.order_status}
-                              </span>
+                            <div className="text-right space-y-1">
+                              <div>
+                                <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.order_status)}`}>
+                                  {order.order_status}
+                                </span>
+                              </div>
+                              <div>
+                                <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                                  order.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                }`}>
+                                  {order.payment_status}
+                                </span>
+                              </div>
                             </div>
                           </div>
                           <div className="flex justify-between items-center pt-2 border-t">

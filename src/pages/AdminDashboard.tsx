@@ -67,17 +67,23 @@ const AdminDashboard = () => {
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
-      const { error } = await supabase
+      console.log('Updating order status:', { orderId, newStatus });
+      
+      const { data, error } = await supabase
         .from('orders')
         .update({ 
           order_status: newStatus,
           updated_at: new Date().toISOString()
         })
-        .eq('id', orderId);
+        .eq('id', orderId)
+        .select();
 
       if (error) {
+        console.error('Update error:', error);
         throw error;
       }
+
+      console.log('Update successful:', data);
 
       // Update local state
       const updatedOrders = orders.map(order => 
@@ -94,17 +100,23 @@ const AdminDashboard = () => {
 
   const updatePaymentStatus = async (orderId: string, newStatus: string) => {
     try {
-      const { error } = await supabase
+      console.log('Updating payment status:', { orderId, newStatus });
+      
+      const { data, error } = await supabase
         .from('orders')
         .update({ 
           payment_status: newStatus,
           updated_at: new Date().toISOString()
         })
-        .eq('id', orderId);
+        .eq('id', orderId)
+        .select();
 
       if (error) {
+        console.error('Update error:', error);
         throw error;
       }
+
+      console.log('Update successful:', data);
 
       // Update local state
       const updatedOrders = orders.map(order => 
