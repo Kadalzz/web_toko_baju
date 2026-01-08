@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, LogOut, User, Package, DollarSign, Search, Phone } from 'lucide-react';
+import { FileText, LogOut, User, Package, DollarSign, Search, Phone, Trash2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 interface Order {
@@ -130,6 +130,7 @@ const AdminDashboard = () => {
       alert('Gagal mengupdate status pembayaran. Silakan coba lagi.');
     }
   };
+
   const deleteOrder = async (orderId: string, orderNumber: string) => {
     if (!confirm(`Apakah Anda yakin ingin menghapus pesanan ${orderNumber}? Tindakan ini tidak dapat dibatalkan.`)) {
       return;
@@ -160,7 +161,7 @@ const AdminDashboard = () => {
       alert('Gagal menghapus pesanan. Silakan coba lagi.');
     }
   };
-  
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -445,6 +446,14 @@ const AdminDashboard = () => {
                               <option value="failed">Failed</option>
                               <option value="refunded">Refunded</option>
                             </select>
+                            <button
+                              onClick={() => deleteOrder(order.id, order.order_number)}
+                              className="w-full flex items-center justify-center px-3 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+                              title="Hapus pesanan"
+                            >
+                              <Trash2 className="h-4 w-4 mr-1" />
+                              Delete
+                            </button>
                           </div>
                         </td>
                       </tr>
