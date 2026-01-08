@@ -61,13 +61,13 @@ const About = () => {
             <h2 className="heading-3 mb-6">Cerita Kami</h2>
             <div className="space-y-4 text-gray-600">
               <p>
-                Robby Fashion didirikan dengan visi untuk menyediakan fashion berkualitas tinggi yang terjangkau bagi semua kalangan. Dimulai dari sebuah toko kecil di Jakarta, kami terus berkembang berkat kepercayaan pelanggan.
+                Alba Ganti Baju berawal dari semangat untuk menghadirkan produk fashion yang stylish, nyaman, dan terjangkau bagi semua kalangan. Kami percaya bahwa setiap orang berhak tampil percaya diri dengan pakaian yang sesuai dengan gaya dan kepribadiannya.
               </p>
               <p>
-                Kami memahami bahwa setiap foto menyimpan kenangan berharga. Itulah mengapa kami selalu berkomitmen untuk memberikan hasil terbaik dengan menggunakan teknologi cetak modern dan material berkualitas tinggi.
+                Berawal dari penjualan sederhana, Alba Ganti Baju terus berkembang dengan mengikuti tren fashion terkini tanpa mengesampingkan kualitas bahan dan kenyamanan pemakaian. Setiap produk yang kami tawarkan dipilih dengan teliti agar dapat memenuhi kebutuhan pelanggan, baik untuk aktivitas sehari-hari maupun acara khusus.
               </p>
               <p>
-                Saat ini, Robby Fashion telah melayani lebih dari 10.000 pelanggan puas dan terus berinovasi dengan koleksi terbaru serta layanan pelanggan terbaik untuk memberikan pengalaman belanja fashion yang lebih baik.
+                Dengan mengutamakan kepuasan pelanggan, kami berkomitmen memberikan pelayanan terbaik, mulai dari pemilihan produk, proses pemesanan, hingga pengiriman. Alba Ganti Baju hadir sebagai solusi belanja pakaian online yang mudah, aman, dan terpercaya.
               </p>
             </div>
           </div>
@@ -81,9 +81,9 @@ const About = () => {
               <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
                 <Award className="w-8 h-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Kualitas Premium</h3>
+              <h3 className="text-xl font-semibold mb-2">Kualitas Produk</h3>
               <p className="text-gray-600">
-                Kami hanya menggunakan material dan peralatan terbaik untuk hasil cetak yang sempurna.
+                Kami menyediakan produk fashion dengan bahan pilihan yang nyaman, awet, dan berkualitas.
               </p>
             </div>
             <div className="text-center">
@@ -92,7 +92,7 @@ const About = () => {
               </div>
               <h3 className="text-xl font-semibold mb-2">Pelayanan Prima</h3>
               <p className="text-gray-600">
-                Tim kami siap membantu Anda dengan ramah dan profesional setiap saat.
+                Kami berkomitmen memberikan pelayanan yang ramah, responsif, dan profesional kepada setiap pelanggan.
               </p>
             </div>
             <div className="text-center">
@@ -101,7 +101,7 @@ const About = () => {
               </div>
               <h3 className="text-xl font-semibold mb-2">Ketepatan Waktu</h3>
               <p className="text-gray-600">
-                Kami menghargai waktu Anda dengan pengerjaan dan pengiriman yang tepat waktu.
+                Kami memastikan proses pemesanan dan pengiriman dilakukan dengan cepat dan tepat waktu.
               </p>
             </div>
           </div>
@@ -131,7 +131,7 @@ const About = () => {
                   </p>
                   <div className="space-y-2">
                     <a 
-                      href="http://wa.me/6281227626780"
+                      href="http://wa.me/6282142388292"
                       className="text-primary-600 hover:text-primary-700 font-medium flex items-center gap-2"
                     >
                       <Phone size={16} />

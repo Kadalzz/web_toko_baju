@@ -26,7 +26,7 @@ const Footer = () => {
               <CreditCard className="h-8 w-8 text-primary-500" />
               <div>
                 <h4 className="font-semibold text-white">Pembayaran Aman</h4>
-                <p className="text-sm">Berbagai metode bayar</p>
+                <p className="text-sm">Pembayaran Langsung Ke Penyedia</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
@@ -118,12 +118,12 @@ const Footer = () => {
               <li className="flex items-center space-x-3">
                 <Phone size={16} className="text-primary-500" />
                 <a 
-                  href="https://wa.me/6281234567890" 
+                  href="https://wa.me/6282142388292" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
                 >
-                  +62 812-3456-7890
+                  +62 812-4238-8292
                 </a>
               </li>
               <li className="flex items-center space-x-3">

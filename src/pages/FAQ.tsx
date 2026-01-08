@@ -20,54 +20,69 @@ const FAQ = () => {
 
   const faqItems: FAQItem[] = [
     {
-      category: "Cetak Foto",
-      question: "Berapa lama waktu yang dibutuhkan untuk mencetak foto?",
-      answer: "Waktu cetak foto bervariasi tergantung ukuran dan jumlah. Untuk cetak foto reguler (4R-12R) biasanya selesai dalam 1-2 jam. Untuk pesanan dalam jumlah besar atau ukuran khusus, bisa memakan waktu 1-2 hari kerja."
+      category: "Produk & Katalog",
+      question: "Apa saja jenis produk yang dijual di Alba Ganti Baju?",
+      answer: "Produk fashion kami mencakup berbagai kategori seperti pakaian wanita (dress, blouse, celana), pakaian pria (kemeja, kaos, celana), sepatu, tas, dan aksesoris fashion lainnya. Semua produk dipilih dengan kualitas terbaik."
     },
     {
-      category: "Cetak Foto",
-      question: "Apakah bisa mencetak foto dari handphone?",
-      answer: "Ya, Anda bisa mengirimkan foto dari handphone melalui WhatsApp atau mengupload langsung di website kami. Pastikan foto memiliki resolusi yang baik untuk hasil cetak yang optimal."
+      category: "Produk & Katalog",
+      question: "Apakah produk yang dijual original?",
+      answer: "Ya, semua produk yang kami jual dijamin 100% original dan berkualitas. Kami hanya bekerja sama dengan supplier terpercaya dan brand ternama."
     },
     {
-      category: "Figura",
-      question: "Apakah tersedia layanan pengiriman untuk figura?",
-      answer: "Ya, kami menyediakan layanan pengiriman untuk figura ke seluruh Indonesia. Figura akan dikemas dengan aman untuk menghindari kerusakan selama pengiriman."
+      category: "Pemesanan & Pengiriman",
+      question: "Bagaimana cara memesan produk?",
+      answer: "Anda bisa memesan dengan menambahkan produk ke keranjang, lalu lanjutkan ke checkout. Atau hubungi kami langsung via WhatsApp untuk pemesanan dan konsultasi produk."
     },
     {
-      category: "Figura",
-      question: "Berapa ukuran figura yang tersedia?",
-      answer: "Kami menyediakan berbagai ukuran figura mulai dari 4R hingga 24R. Ukuran populer termasuk 4R (10.2x15.2 cm), 10R (20.3x25.4 cm), dan 16R (40x50 cm)."
+      category: "Pemesanan & Pengiriman",
+      question: "Berapa lama waktu pengiriman?",
+      answer: "Waktu pengiriman bervariasi tergantung lokasi. Untuk area Jabodetabek biasanya 1-3 hari kerja, sedangkan untuk luar kota 3-7 hari kerja. Pengiriman express juga tersedia dengan estimasi lebih cepat."
     },
     {
-      category: "Album Foto",
-      question: "Berapa minimal halaman untuk pemesanan album foto?",
-      answer: "Minimal halaman untuk album foto adalah 10 halaman. Anda dapat menambah halaman sesuai kebutuhan dengan biaya tambahan per halaman."
+      category: "Pemesanan & Pengiriman",
+      question: "Apakah ada gratis ongkir?",
+      answer: "Ya, kami menyediakan gratis ongkir untuk pembelian dengan minimum tertentu atau untuk member baru. Cek promo terbaru kami di halaman utama."
     },
     {
-      category: "Album Foto",
-      question: "Apakah bisa request desain khusus untuk album?",
-      answer: "Ya, kami menyediakan layanan desain khusus untuk album foto. Tim desainer kami akan membantu mewujudkan konsep album yang Anda inginkan."
+      category: "Ukuran & Pengembalian",
+      question: "Bagaimana cara mengetahui ukuran yang tepat?",
+      answer: "Setiap produk dilengkapi dengan panduan ukuran (size chart) yang detail. Anda juga bisa menghubungi customer service kami untuk konsultasi ukuran yang sesuai dengan body type Anda."
+    },
+    {
+      category: "Ukuran & Pengembalian",
+      question: "Apakah bisa tukar/return jika ukuran tidak pas?",
+      answer: "Ya, kami menerima penukaran dalam waktu 7 hari setelah produk diterima, dengan syarat produk masih dalam kondisi sempurna dengan tag dan kemasan asli. Untuk detail kebijakan return, silakan cek halaman Terms & Conditions."
     },
     {
       category: "Pembayaran",
       question: "Metode pembayaran apa saja yang tersedia?",
-      answer: "Kami menerima pembayaran melalui transfer bank (BCA, Mandiri, BNI), QRIS, dan e-wallet (GoPay, OVO, DANA)."
+      answer: "Kami menerima pembayaran melalui transfer bank (BCA, Mandiri, BRI, BNI), e-wallet (GoPay, OVO, DANA, ShopeePay), dan QRIS. Pembayaran COD juga tersedia untuk area tertentu."
     },
     {
       category: "Pembayaran",
-      question: "Apakah ada biaya tambahan untuk pengiriman?",
-      answer: "Ya, biaya pengiriman dihitung berdasarkan berat paket dan lokasi pengiriman. Anda dapat memilih jasa ekspedisi yang tersedia saat checkout."
+      question: "Apakah aman berbelanja di Alba Ganti Baju?",
+      answer: "Sangat aman! Kami menggunakan sistem pembayaran yang terenkripsi dan tidak menyimpan informasi kartu kredit Anda. Semua transaksi dilindungi dengan sistem keamanan terbaik."
+    },
+    {
+      category: "Membership & Promo",
+      question: "Apa keuntungan menjadi member Alba Ganti Baju?",
+      answer: "Member kami mendapatkan berbagai benefit seperti diskon eksklusif hingga 50%, poin reward setiap pembelian, akses early sale, gratis ongkir, dan newsletter dengan update produk terbaru."
+    },
+    {
+      category: "Membership & Promo",
+      question: "Bagaimana cara mendaftar menjadi member?",
+      answer: "Sangat mudah! Klik tombol 'Daftar' di pojok kanan atas, isi form registrasi dengan email dan data diri Anda, lalu verifikasi email. Setelah itu Anda sudah bisa menikmati semua benefit member."
     },
     {
       category: "Lainnya",
-      question: "Bagaimana jika hasil cetak tidak sesuai dengan yang diinginkan?",
-      answer: "Kami memberikan garansi kepuasan. Jika hasil cetak tidak sesuai karena kesalahan dari pihak kami, kami akan melakukan cetak ulang tanpa biaya tambahan."
+      question: "Bagaimana cara melacak pesanan saya?",
+      answer: "Setelah pesanan dikirim, Anda akan menerima nomor resi via email dan WhatsApp. Anda bisa tracking pesanan melalui halaman 'Status Pesanan' di akun Anda atau langsung melalui website ekspedisi."
     },
     {
       category: "Lainnya",
-      question: "Apakah bisa melakukan pemesanan custom di luar produk yang tersedia?",
-      answer: "Ya, kami terbuka untuk pemesanan custom. Silakan hubungi tim kami melalui WhatsApp atau email untuk mendiskusikan kebutuhan Anda."
+      question: "Apakah bisa request produk yang tidak ada di katalog?",
+      answer: "Tentu! Kami terbuka untuk request produk. Silakan hubungi customer service kami via WhatsApp atau email dengan detail produk yang Anda inginkan, dan kami akan berusaha mencarinya untuk Anda."
     }
   ];
 
@@ -83,7 +98,7 @@ const FAQ = () => {
           </div>
           <h1 className="heading-2 mb-4">Pertanyaan yang Sering Diajukan</h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Temukan jawaban untuk pertanyaan umum seputar layanan cetak foto dan produk kami.
+            Temukan jawaban untuk pertanyaan umum seputar produk fashion, pemesanan, pengiriman, dan layanan kami.
           </p>
         </div>
 
@@ -136,7 +151,7 @@ const FAQ = () => {
               Jangan ragu untuk menghubungi tim kami. Kami siap membantu Anda.
             </p>
             <a 
-              href="http://wa.me/6281227626780"
+              href="http://wa.me/6282142388292"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary"

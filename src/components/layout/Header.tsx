@@ -38,38 +38,26 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-black text-white sticky top-0 z-50">
+      {/* Main Header */}
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <ShoppingBag className="h-8 w-8 text-primary-600" />
-            <span className="text-xl font-bold text-primary-700">Alba <span className="text-accent">Ganti Baju</span></span>
+        {/* Top Row - Logo Centered with Icons on Right */}
+        <div className="flex items-center justify-between py-6 border-b border-gray-800">
+          {/* Spacer for mobile */}
+          <div className="w-10 md:w-0"></div>
+          
+          {/* Logo - Centered */}
+          <Link to="/" className="flex items-center space-x-3">
+            <ShoppingBag className="h-10 w-10 md:h-12 md:w-12 text-white" />
+            <span className="text-3xl md:text-5xl font-bold text-white tracking-widest">ALBA GANTI BAJU</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) =>
-                  isActive
-                    ? 'text-primary-600 font-medium'
-                    : 'text-gray-600 hover:text-primary-600 transition-colors duration-200'
-                }
-              >
-                {link.name}
-              </NavLink>
-            ))}
-          </nav>
-
           {/* Right Side Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 md:space-x-4">
             {/* Search */}
             <button 
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="p-2 text-gray-600 hover:text-primary-600 transition-colors"
+              className="p-2 text-gray-300 hover:text-white transition-colors"
             >
               <Search className="h-5 w-5" />
             </button>
@@ -77,7 +65,7 @@ const Header = () => {
             {/* Wishlist */}
             <Link 
               to="/wishlist" 
-              className="p-2 text-gray-600 hover:text-primary-600 transition-colors hidden md:block"
+              className="p-2 text-gray-300 hover:text-white transition-colors hidden md:block"
             >
               <Heart className="h-5 w-5" />
             </Link>
@@ -85,21 +73,21 @@ const Header = () => {
             {/* Cart */}
             <button 
               onClick={openCart}
-              className="p-2 text-gray-600 hover:text-primary-600 transition-colors relative"
+              className="p-2 text-gray-300 hover:text-white transition-colors relative"
             >
               <ShoppingBag className="h-5 w-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-white text-black text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
                   {itemCount > 99 ? '99+' : itemCount}
                 </span>
               )}
             </button>
 
-            {/* User */}
+            {/* User - Desktop */}
             {isAuthenticated ? (
               <Link 
                 to="/account" 
-                className="p-2 text-gray-600 hover:text-primary-600 transition-colors hidden md:flex items-center space-x-2"
+                className="p-2 text-gray-300 hover:text-white transition-colors hidden md:flex items-center space-x-2"
               >
                 <User className="h-5 w-5" />
                 <span className="text-sm">{user?.full_name?.split(' ')[0]}</span>
@@ -107,7 +95,7 @@ const Header = () => {
             ) : (
               <Link 
                 to="/login" 
-                className="hidden md:block px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm"
+                className="hidden md:block px-4 py-2 bg-white text-black rounded hover:bg-gray-200 transition-colors text-sm font-semibold"
               >
                 Masuk
               </Link>
@@ -116,29 +104,46 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <button className="md:hidden p-2" onClick={toggleMenu}>
               {isMenuOpen ? (
-                <X className="h-6 w-6 text-gray-600" />
+                <X className="h-6 w-6 text-white" />
               ) : (
-                <Menu className="h-6 w-6 text-gray-600" />
+                <Menu className="h-6 w-6 text-white" />
               )}
             </button>
           </div>
         </div>
 
+        {/* Bottom Row - Navigation Menu Centered */}
+        <nav className="hidden md:flex items-center justify-center space-x-8 py-4">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-white font-medium text-lg border-b-2 border-white pb-1'
+                  : 'text-gray-300 hover:text-white transition-colors duration-200 text-lg'
+              }
+            >
+              {link.name}
+            </NavLink>
+          ))}
+        </nav>
+
         {/* Search Bar (Expandable) */}
         {isSearchOpen && (
-          <div className="py-4 border-t">
+          <div className="py-4 border-t border-gray-800">
             <form onSubmit={handleSearch} className="flex">
               <input
                 type="text"
                 placeholder="Cari produk..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="flex-1 px-4 py-2 bg-gray-900 text-white border border-gray-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-white placeholder-gray-400"
                 autoFocus
               />
               <button
                 type="submit"
-                className="px-6 py-2 bg-primary-600 text-white rounded-r-lg hover:bg-primary-700 transition-colors"
+                className="px-6 py-2 bg-white text-black rounded-r-lg hover:bg-gray-200 transition-colors font-semibold"
               >
                 Cari
               </button>
@@ -148,7 +153,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white py-4 px-2 border-t">
+          <div className="md:hidden bg-black py-4 px-2 border-t border-gray-800">
             <nav className="flex flex-col space-y-4">
               {navLinks.map((link) => (
                 <NavLink
@@ -156,19 +161,19 @@ const Header = () => {
                   to={link.path}
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-primary-600 font-medium px-2 py-1'
-                      : 'text-gray-600 hover:text-primary-600 transition-colors duration-200 px-2 py-1'
+                      ? 'text-white font-medium px-2 py-1 border-l-2 border-white'
+                      : 'text-gray-300 hover:text-white transition-colors duration-200 px-2 py-1'
                   }
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.name}
                 </NavLink>
               ))}
-              <div className="border-t pt-4 mt-4">
+              <div className="border-t border-gray-800 pt-4 mt-4">
                 {isAuthenticated ? (
                   <Link
                     to="/account"
-                    className="flex items-center space-x-2 px-2 py-1 text-gray-600"
+                    className="flex items-center space-x-2 px-2 py-1 text-gray-300"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <User className="h-5 w-5" />
@@ -178,14 +183,14 @@ const Header = () => {
                   <div className="flex space-x-2 px-2">
                     <Link
                       to="/login"
-                      className="flex-1 text-center py-2 bg-primary-600 text-white rounded-lg"
+                      className="flex-1 text-center py-2 bg-white text-black rounded font-semibold"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Masuk
                     </Link>
                     <Link
                       to="/register"
-                      className="flex-1 text-center py-2 border border-primary-600 text-primary-600 rounded-lg"
+                      className="flex-1 text-center py-2 border border-white text-white rounded"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Daftar
