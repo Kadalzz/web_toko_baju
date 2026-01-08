@@ -52,7 +52,7 @@ const About = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
           <div>
             <img
-              src="https://images.pexels.com/photos/3651597/pexels-photo-3651597.jpeg"
+              src="/foto.jpeg"
               alt="Studio Foto Kami"
               className="rounded-lg shadow-lg"
             />
