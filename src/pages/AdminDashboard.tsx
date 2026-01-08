@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, LogOut, User, Package, DollarSign, Search, Phone, Trash2 } from 'lucide-react';
+import { FileText, LogOut, User, Package, DollarSign, Search, Phone, Trash2, CheckCircle, Bell } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 interface Order {
@@ -65,7 +65,7 @@ const AdminDashboard = () => {
     navigate('/admin/login');
   };
 
-  const updateOrderStatus = async (orderId: string, newStatus: string) => {
+  const updateOrderStatus = async (orderId: string, newStatus: string, orderNumber: string = '') => {
     try {
       console.log('Updating order status:', { orderId, newStatus });
       
@@ -91,11 +91,27 @@ const AdminDashboard = () => {
       );
       setOrders(updatedOrders);
       
-      alert('Status pesanan berhasil diperbarui!');
+      const statusMessages: { [key: string]: string } = {
+        'confirmed': `✅ Pesanan ${orderNumber} berhasil dikonfirmasi! Customer akan melihat status ini di akun mereka.`,
+        'processing': `📦 Pesanan ${orderNumber} sedang diproses.`,
+        'shipped': `🚚 Pesanan ${orderNumber} telah dikirim!`,
+        'delivered': `✅ Pesanan ${orderNumber} telah diterima customer.`,
+        'cancelled': `❌ Pesanan ${orderNumber} dibatalkan.`
+      };
+      
+      alert(statusMessages[newStatus] || 'Status pesanan berhasil diperbarui!');
     } catch (err) {
       console.error('Error updating order status:', err);
       alert('Gagal mengupdate status pesanan. Silakan coba lagi.');
     }
+  };
+
+  const confirmOrder = async (orderId: string, orderNumber: string) => {
+    if (!confirm(`Konfirmasi pesanan ${orderNumber}?\n\nSetelah dikonfirmasi, customer akan dapat melihat pesanan ini di halaman Akun mereka.`)) {
+      return;
+    }
+    
+    await updateOrderStatus(orderId, 'confirmed', orderNumber);
   };
 
   const updatePaymentStatus = async (orderId: string, newStatus: string) => {
@@ -236,7 +252,10 @@ const AdminDashboard = () => {
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+              <p className="text-sm text-gray-500 mt-1">Kelola pesanan dan konfirmasi pembayaran customer</p>
+            </div>
             <button
               onClick={handleLogout}
               className="flex items-center px-4 py-2 text-sm text-red-600 hover:text-red-700"
@@ -250,6 +269,23 @@ const AdminDashboard = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        {/* Notification for Pending Orders */}
+        {getPendingOrders() > 0 && (
+          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+            <div className="flex items-center">
+              <Bell className="h-5 w-5 text-yellow-600 mr-3" />
+              <div>
+                <p className="text-sm font-medium text-yellow-800">
+                  Ada {getPendingOrders()} pesanan baru menunggu konfirmasi!
+                </p>
+                <p className="text-xs text-yellow-700 mt-1">
+                  Konfirmasi pesanan agar customer dapat melihatnya di halaman akun mereka.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Error Message */}
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
@@ -424,9 +460,21 @@ const AdminDashboard = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           <div className="space-y-2">
+                            {/* Quick Confirm Button for Pending Orders */}
+                            {order.order_status === 'pending' && (
+                              <button
+                                onClick={() => confirmOrder(order.id, order.order_number)}
+                                className="w-full flex items-center justify-center px-3 py-2 border border-green-300 text-sm font-medium rounded-md text-green-700 bg-green-50 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+                                title="Konfirmasi pesanan"
+                              >
+                                <CheckCircle className="h-4 w-4 mr-1" />
+                                Konfirmasi
+                              </button>
+                            )}
+                            
                             <select
                               value={order.order_status}
-                              onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                              onChange={(e) => updateOrderStatus(order.id, e.target.value, order.order_number)}
                               className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                             >
                               <option value="pending">Pending</option>
