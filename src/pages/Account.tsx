@@ -81,14 +81,52 @@ const Account = () => {
   const loadOrders = async () => {
     try {
       setIsRefreshing(true);
+      
+      // First, get customer_id from auth user
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      
+      if (!authUser) {
+        console.error('No authenticated user');
+        setOrders([]);
+        return;
+      }
+
+      // Get customer record
+      const { data: customerData, error: customerError } = await supabase
+        .from('customers')
+        .select('id')
+        .eq('user_id', authUser.id)
+        .single();
+
+      if (customerError || !customerData) {
+        console.log('No customer record found, trying with phone');
+        // Fallback: try with phone number
+        if (user?.phone) {
+          const { data, error } = await supabase
+            .from('orders')
+            .select('*')
+            .eq('shipping_phone', user.phone)
+            .order('created_at', { ascending: false });
+          
+          if (!error && data) {
+            setOrders(data);
+          }
+        }
+        return;
+      }
+
+      // Load orders by customer_id
       const { data, error } = await supabase
         .from('orders')
         .select('*')
-        .eq('shipping_phone', user?.phone)
+        .eq('customer_id', customerData.id)
         .order('created_at', { ascending: false });
       
       if (!error && data) {
         setOrders(data);
+        console.log('Loaded orders:', data.length);
+      } else {
+        console.error('Error loading orders:', error);
       }
     } catch (err) {
       console.error('Error loading orders:', err);
@@ -327,7 +365,12 @@ const Account = () => {
               {activeTab === 'orders' && (
                 <div>
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold text-gray-900">Riwayat Pesanan</h2>
+                    <div>
+                      <h2 className="text-xl font-bold text-gray-900">Riwayat Pesanan</h2>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Pesanan akan muncul di sini setelah dikonfirmasi oleh admin
+                      </p>
+                    </div>
                     {isRefreshing && (
                       <span className="text-sm text-gray-500 flex items-center">
                         <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -357,9 +400,21 @@ const Account = () => {
 
                   <div className="space-y-4">
                     {filteredOrders.length === 0 ? (
-                      <div className="text-center py-12">
+                      <div className="text-center py-12 bg-gray-50 rounded-lg">
                         <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                        <p className="text-gray-500">Belum ada pesanan</p>
+                        <p className="text-gray-500 font-medium mb-2">
+                          {orders.length === 0 ? 'Belum ada pesanan' : 'Tidak ada pesanan dengan filter ini'}
+                        </p>
+                        {orders.length === 0 && (
+                          <div className="mt-4 text-sm text-gray-600 space-y-2">
+                            <p>📱 Pesanan melalui WhatsApp akan muncul di sini setelah:</p>
+                            <ol className="list-decimal list-inside space-y-1 mt-2">
+                              <li>Anda menyelesaikan checkout dan mengirim pesan ke WhatsApp</li>
+                              <li>Admin mengonfirmasi pesanan Anda</li>
+                            </ol>
+                            <p className="mt-3 text-primary-600">Halaman ini diperbarui otomatis setiap 15 detik</p>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       filteredOrders.map(order => (
