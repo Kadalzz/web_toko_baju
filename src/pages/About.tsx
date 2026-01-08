@@ -163,11 +163,11 @@ const About = () => {
                   </p>
                   <div className="space-y-2">
                     <a 
-                      href="http://wa.me/+62895329513000"
+                      href="http://wa.me/+6282142388292"
                       className="text-gray-700 hover:text-gray-900 font-medium flex items-center gap-2"
                     >
                       <Phone size={16} />
-                      +62 895 3295 13000
+                      +62 821 4238 8292
                     </a>
                     <p className="text-gray-600 flex items-center gap-2">
                       <Clock size={16} />
