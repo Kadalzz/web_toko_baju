@@ -15,35 +15,35 @@ const dummyCategories: Category[] = [
     name: 'Kaos',
     slug: 'kaos',
     description: 'Koleksi kaos pria dan wanita dengan berbagai model dan...',
-    image: 'public/images/model/modelkaospolos.jpeg'
+    image: '/images/model/modelkaospolos.jpeg'
   },
   {
     id: '2',
     name: 'Kemeja',
     slug: 'kemeja',
     description: 'Kemeja formal dan casual untuk tampilan profesional',
-    image: 'public/images/model/modelkemeja.jpeg'
+    image: '/images/model/modelkemeja.jpeg'
   },
   {
     id: '3',
     name: 'Celana',
     slug: 'celana',
     description: 'Celana jeans, chino, cargo, dan kulot',
-    image: 'public/images/model/modeljeans.jpeg'
+    image: '/images/model/modeljeans.jpeg'
   },
   {
     id: '4',
     name: 'Jaket',
     slug: 'jaket',
     description: 'Jaket, hoodie, dan outerwear untuk gaya kasual',
-    image: 'public/images/model/modeljaket.jpeg'
+    image: '/images/model/modeljaket.jpeg'
   },
   {
     id: '5',
     name: 'Dress',
     slug: 'dress',
     description: 'Koleksi dress casual dan formal untuk berbagai acara',
-    image: 'public/images/model/modeldress.jpeg'
+    image: '/images/model/modeldress.jpeg'
   }
 ];
 
