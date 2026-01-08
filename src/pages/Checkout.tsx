@@ -91,24 +91,58 @@ const Checkout = () => {
 
       console.log('Creating customer...', customerData);
 
-      // Insert customer first
-      const { data: customerResult, error: customerError } = await supabase
-        .from('customers')
-        .insert([customerData])
-        .select()
-        .single();
+      // Check if user is authenticated
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      // If user is logged in, try to find or create customer with user_id
+      let customerId: string;
+      
+      if (user) {
+        // Check if customer already exists for this user
+        const { data: existingCustomer } = await supabase
+          .from('customers')
+          .select('id')
+          .eq('user_id', user.id)
+          .single();
 
-      if (customerError) {
-        console.error('Customer error:', customerError);
-        throw new Error(`Gagal membuat customer: ${customerError.message}`);
+        if (existingCustomer) {
+          customerId = existingCustomer.id;
+          console.log('Using existing customer:', customerId);
+        } else {
+          // Create new customer with user_id
+          const { data: newCustomer, error: customerError } = await supabase
+            .from('customers')
+            .insert([{ ...customerData, user_id: user.id }])
+            .select()
+            .single();
+
+          if (customerError) {
+            console.error('Customer error:', customerError);
+            throw new Error(`Gagal membuat customer: ${customerError.message}`);
+          }
+          customerId = newCustomer.id;
+          console.log('Customer created with user_id:', customerId);
+        }
+      } else {
+        // User not logged in - create customer without user_id
+        const { data: customerResult, error: customerError } = await supabase
+          .from('customers')
+          .insert([customerData])
+          .select()
+          .single();
+
+        if (customerError) {
+          console.error('Customer error:', customerError);
+          throw new Error(`Gagal membuat customer: ${customerError.message}`);
+        }
+        customerId = customerResult.id;
+        console.log('Customer created without user_id:', customerId);
       }
-
-      console.log('Customer created:', customerResult);
 
       // Prepare order data
       const orderData = {
         order_number: newOrderId,
-        customer_id: customerResult.id,
+        customer_id: customerId,
         shipping_name: formData.fullName,
         shipping_phone: formData.phone,
         shipping_address: formData.address,
