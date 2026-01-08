@@ -130,7 +130,37 @@ const AdminDashboard = () => {
       alert('Gagal mengupdate status pembayaran. Silakan coba lagi.');
     }
   };
+  const deleteOrder = async (orderId: string, orderNumber: string) => {
+    if (!confirm(`Apakah Anda yakin ingin menghapus pesanan ${orderNumber}? Tindakan ini tidak dapat dibatalkan.`)) {
+      return;
+    }
 
+    try {
+      console.log('Deleting order:', { orderId, orderNumber });
+      
+      const { error } = await supabase
+        .from('orders')
+        .delete()
+        .eq('id', orderId);
+
+      if (error) {
+        console.error('Delete error:', error);
+        throw error;
+      }
+
+      console.log('Delete successful');
+
+      // Update local state - remove deleted order
+      const updatedOrders = orders.filter(order => order.id !== orderId);
+      setOrders(updatedOrders);
+      
+      alert('Pesanan berhasil dihapus!');
+    } catch (err) {
+      console.error('Error deleting order:', err);
+      alert('Gagal menghapus pesanan. Silakan coba lagi.');
+    }
+  };
+  
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
