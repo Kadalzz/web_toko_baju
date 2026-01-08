@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #7E7260;
+  --primary-dark: #4A433A;
+  --primary-light: #EAE6E0;
+  --cream: #FDFCFB;
+  --accent: #B8956A;
+  --taupe: #9A8A7A;
+  --text-primary: #4A433A;
+  --text-secondary: #7D6E5F;
+}
+
+body {
+  font-family: 'Lato', 'Poppins', sans-serif;
+  color: var(--text-primary);
+  background-color: var(--cream);
+  @apply antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+/* Luxury underline effect */
+.gold-underline {
+  position: relative;
+}
+
+.gold-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #B8956A, transparent);
+}
+
+/* Common styles */
+.container {
+  @apply mx-auto px-4 md:px-6 max-w-7xl;
+}
+
+.section {
+  @apply py-12 md:py-20;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center px-6 py-3 rounded-md font-medium transition-all duration-200 text-base;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50;
+}
+
+.btn-secondary {
+  @apply bg-white text-blue-600 border border-blue-600 hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50;
+}
+
+.heading-1 {
+  @apply text-4xl md:text-5xl font-bold leading-tight;
+}
+
+.heading-2 {
+  @apply text-3xl md:text-4xl font-bold leading-tight;
+}
+
+.heading-3 {
+  @apply text-2xl md:text-3xl font-semibold leading-tight;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply text-gray-900;
+}
+
+p {
+  @apply text-gray-700 leading-relaxed;
+}
