@@ -14,11 +14,11 @@ const dummyProducts: Product[] = [
     price: 129000,
     discount_price: 89000,
     category_id: '1',
-    images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=500&fit=crop'],
+    images: ['/images/products/kaospolosputih.jpeg'],
     sizes: [{ name: 'S', stock: 10 }, { name: 'M', stock: 15 }, { name: 'L', stock: 20 }, { name: 'XL', stock: 10 }],
     colors: [
-      { name: 'Hitam', hex_code: '#000000', stock: 25, images: ['https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=500&fit=crop'] },
-      { name: 'Putih', hex_code: '#FFFFFF', stock: 30, images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=500&fit=crop'] }
+      { name: 'Hitam', hex_code: '#000000', stock: 25, images: ['/images/products/kaospoloshitam.jpeg'] },
+      { name: 'Putih', hex_code: '#FFFFFF', stock: 30, images: ['/images/products/kaospolosputih.jpeg'] }
     ],
     stock: 55,
     is_featured: true,
@@ -32,9 +32,12 @@ const dummyProducts: Product[] = [
     description: 'Kemeja flanel dengan motif kotak-kotak yang stylish',
     price: 189000,
     category_id: '2',
-    images: ['https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=400&h=500&fit=crop'],
+    images: ['/images/products/kemejabu.jpeg'],
     sizes: [{ name: 'M', stock: 10 }, { name: 'L', stock: 15 }, { name: 'XL', stock: 10 }],
-    colors: [{ name: 'Merah', hex_code: '#EF4444', stock: 20 }, { name: 'Biru', hex_code: '#3B82F6', stock: 15 }],
+    colors: [
+      { name: 'Cream', hex_code: '#FFFDD0', stock: 15, images: ['/images/products/kemejabu.jpeg'] },
+      { name: 'Putih', hex_code: '#FFFFFF', stock: 20, images: ['/images/products/kemejaputih.jpeg'] }
+    ],
     stock: 35,
     is_featured: true,
     is_active: true,
@@ -48,9 +51,13 @@ const dummyProducts: Product[] = [
     price: 259000,
     discount_price: 199000,
     category_id: '3',
-    images: ['https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&h=500&fit=crop'],
+    images: ['/images/products/celanachinoabu.jpeg'],
     sizes: [{ name: '30', stock: 10 }, { name: '32', stock: 15 }, { name: '34', stock: 10 }],
-    colors: [{ name: 'Khaki', hex_code: '#C4A35A', stock: 20 }, { name: 'Navy', hex_code: '#1E3A5F', stock: 15 }],
+    colors: [
+      { name: 'Abu-abu', hex_code: '#6B7280', stock: 20, images: ['/images/products/celanachinoabu.jpeg'] },
+      { name: 'Cream', hex_code: '#F5F5DC', stock: 18, images: ['/images/products/celanachinocream.jpeg'] },
+      { name: 'Hitam', hex_code: '#000000', stock: 15, images: ['/images/products/celanachinohitam.jpeg'] }
+    ],
     stock: 35,
     is_featured: true,
     is_active: true,
@@ -63,9 +70,12 @@ const dummyProducts: Product[] = [
     description: 'Jaket bomber dengan bahan premium yang tahan lama',
     price: 359000,
     category_id: '4',
-    images: ['https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=500&fit=crop'],
+    images: ['/images/products/jaketbomberhitam.jpeg'],
     sizes: [{ name: 'M', stock: 8 }, { name: 'L', stock: 12 }, { name: 'XL', stock: 8 }],
-    colors: [{ name: 'Hitam', hex_code: '#000000', stock: 15 }, { name: 'Army', hex_code: '#4B5320', stock: 13 }],
+    colors: [
+      { name: 'Hitam', hex_code: '#000000', stock: 15, images: ['/images/products/jaketbomberhitam.jpeg'] },
+      { name: 'Army', hex_code: '#4B5320', stock: 13, images: ['/images/products/jaketbomberhijau.jpeg'] }
+    ],
     stock: 28,
     is_featured: true,
     is_active: true,
@@ -79,9 +89,12 @@ const dummyProducts: Product[] = [
     price: 279000,
     discount_price: 229000,
     category_id: '4',
-    images: ['https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=500&fit=crop'],
+    images: ['/images/products/hoodieabu.jpeg'],
     sizes: [{ name: 'M', stock: 10 }, { name: 'L', stock: 15 }, { name: 'XL', stock: 12 }],
-    colors: [{ name: 'Abu-abu', hex_code: '#6B7280', stock: 20 }, { name: 'Hitam', hex_code: '#000000', stock: 17 }],
+    colors: [
+      { name: 'Abu-abu', hex_code: '#6B7280', stock: 20, images: ['/images/products/hoodieabu.jpeg'] },
+      { name: 'Hitam', hex_code: '#000000', stock: 17, images: ['/images/products/hoodiehitam.jpeg'] }
+    ],
     stock: 37,
     is_featured: true,
     is_active: true,
@@ -94,9 +107,12 @@ const dummyProducts: Product[] = [
     description: 'Dress casual yang cocok untuk musim panas',
     price: 249000,
     category_id: '5',
-    images: ['https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop'],
+    images: ['/images/products/dressfloral.jpeg'],
     sizes: [{ name: 'S', stock: 8 }, { name: 'M', stock: 12 }, { name: 'L', stock: 8 }],
-    colors: [{ name: 'Floral', hex_code: '#EC4899', stock: 15 }, { name: 'Putih', hex_code: '#FFFFFF', stock: 13 }],
+    colors: [
+      { name: 'Floral', hex_code: '#EC4899', stock: 15, images: ['/images/products/dressfloral.jpeg'] },
+      { name: 'Putih', hex_code: '#FFFFFF', stock: 13, images: ['/images/products/dressputih.jpeg'] }
+    ],
     stock: 28,
     is_featured: true,
     is_active: true,
@@ -110,9 +126,12 @@ const dummyProducts: Product[] = [
     price: 179000,
     discount_price: 149000,
     category_id: '1',
-    images: ['https://images.unsplash.com/photo-1625910513413-5fc45e80b2d1?w=400&h=500&fit=crop'],
+    images: ['/images/products/polonavy.jpeg'],
     sizes: [{ name: 'M', stock: 15 }, { name: 'L', stock: 20 }, { name: 'XL', stock: 15 }],
-    colors: [{ name: 'Navy', hex_code: '#1E3A5F', stock: 25 }, { name: 'Putih', hex_code: '#FFFFFF', stock: 25 }],
+    colors: [
+      { name: 'Navy', hex_code: '#1E3A5F', stock: 25, images: ['/images/products/polonavy.jpeg'] },
+      { name: 'Putih', hex_code: '#FFFFFF', stock: 25, images: ['/images/products/poloputih.jpeg'] }
+    ],
     stock: 50,
     is_featured: true,
     is_active: true,
@@ -125,9 +144,12 @@ const dummyProducts: Product[] = [
     description: 'Jeans denim dengan bahan stretch yang nyaman',
     price: 299000,
     category_id: '3',
-    images: ['https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=500&fit=crop'],
+    images: ['/images/products/denimbiru.jpeg'],
     sizes: [{ name: '30', stock: 10 }, { name: '32', stock: 15 }, { name: '34', stock: 12 }],
-    colors: [{ name: 'Blue Wash', hex_code: '#4A90D9', stock: 20 }, { name: 'Black', hex_code: '#1F2937', stock: 17 }],
+    colors: [
+      { name: 'Blue Wash', hex_code: '#4A90D9', stock: 20, images: ['/images/products/denimbiru.jpeg'] },
+      { name: 'Hitam', hex_code: '#1F2937', stock: 17, images: ['/images/products/denimhitam.jpeg'] }
+    ],
     stock: 37,
     is_featured: true,
     is_active: true,
