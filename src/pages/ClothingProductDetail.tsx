@@ -27,9 +27,9 @@ const allProducts: Product[] = [
     discount_price: 89000,
     category_id: '1',
     images: [
-      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=800&h=1000&fit=crop',
+      '/images/products/kaospolosputih.jpeg',
+      '/images/products/kaospoloshitam.jpeg',
+      '/images/products/kaospolosabu.jpeg',
     ],
     sizes: [{ name: 'S', stock: 10 }, { name: 'M', stock: 15 }, { name: 'L', stock: 20 }, { name: 'XL', stock: 10 }],
     colors: [
@@ -38,8 +38,8 @@ const allProducts: Product[] = [
         hex_code: '#000000', 
         stock: 25,
         images: [
-          'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&h=1000&fit=crop',
-          'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&h=1000&fit=crop'
+          '/images/products/kaospoloshitam.jpeg',
+          '/images/products/kaospoloshitam.jpeg'
         ]
       },
       { 
@@ -47,8 +47,8 @@ const allProducts: Product[] = [
         hex_code: '#FFFFFF', 
         stock: 30,
         images: [
-          'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=1000&fit=crop',
-          'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&h=1000&fit=crop'
+          '/images/products/kaospolosputih.jpeg',
+          '/images/products/kaospolosputih.jpeg'
         ]
       },
       { 
@@ -56,8 +56,8 @@ const allProducts: Product[] = [
         hex_code: '#1E3A5F', 
         stock: 20,
         images: [
-          'https://images.unsplash.com/photo-1622445275463-afa2ab738c34?w=800&h=1000&fit=crop',
-          'https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800&h=1000&fit=crop'
+          '/images/products/kaospolosnavy.jpeg',
+          '/images/products/kaospolosnavy.jpeg'
         ]
       },
       { 
@@ -65,8 +65,8 @@ const allProducts: Product[] = [
         hex_code: '#6B7280', 
         stock: 15,
         images: [
-          'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=800&h=1000&fit=crop',
-          'https://images.unsplash.com/photo-1622519407650-3df9883f76f3?w=800&h=1000&fit=crop'
+          '/images/products/kaospolosabu.jpeg',
+          '/images/products/kaospolosabu.jpeg'
         ]
       }
     ],
@@ -83,36 +83,37 @@ const allProducts: Product[] = [
     price: 189000,
     category_id: '2',
     images: [
-      'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&h=1000&fit=crop',
+      '/images/products/kemejabu.jpeg',
+      '/images/products/kemejaputih.jpeg',
+      '/images/products/kemejacream.jpeg',
     ],
     sizes: [{ name: 'M', stock: 10 }, { name: 'L', stock: 15 }, { name: 'XL', stock: 10 }],
     colors: [
-      { 
-        name: 'Merah', 
-        hex_code: '#EF4444', 
-        stock: 20,
-        images: [
-          'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=800&h=1000&fit=crop',
-          'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&h=1000&fit=crop'
-        ]
-      },
       { 
         name: 'Biru', 
         hex_code: '#3B82F6', 
         stock: 15,
         images: [
-          'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&h=1000&fit=crop',
-          'https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=800&h=1000&fit=crop'
+          '/images/products/kemejabu.jpeg',
+          '/images/products/kemejabu.jpeg'
         ]
       },
       { 
-        name: 'Hijau', 
-        hex_code: '#22C55E', 
-        stock: 12,
+        name: 'Putih', 
+        hex_code: '#FFFFFF', 
+        stock: 20,
         images: [
-          'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&h=1000&fit=crop',
-          'https://images.unsplash.com/photo-1608748010899-18f300247112?w=800&h=1000&fit=crop'
+          '/images/products/kemejaputih.jpeg',
+          '/images/products/kemejaputih.jpeg'
+        ]
+      },
+      { 
+        name: 'Cream', 
+        hex_code: '#F5F5DC', 
+        stock: 18,
+        images: [
+          '/images/products/kemejacream.jpeg',
+          '/images/products/kemejacream.jpeg'
         ]
       }
     ],
@@ -130,14 +131,39 @@ const allProducts: Product[] = [
     discount_price: 199000,
     category_id: '3',
     images: [
-      'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&h=1000&fit=crop',
+      '/images/products/celanachinoabu.jpeg',
+      '/images/products/celanachinocream.jpeg',
+      '/images/products/celanachinohitam.jpeg',
     ],
     sizes: [{ name: '30', stock: 10 }, { name: '32', stock: 15 }, { name: '34', stock: 10 }, { name: '36', stock: 8 }],
     colors: [
-      { name: 'Khaki', hex_code: '#C4A35A', stock: 20 },
-      { name: 'Navy', hex_code: '#1E3A5F', stock: 15 },
-      { name: 'Hitam', hex_code: '#000000', stock: 18 }
+      { 
+        name: 'Abu-abu', 
+        hex_code: '#6B7280', 
+        stock: 20,
+        images: [
+          '/images/products/celanachinoabu.jpeg',
+          '/images/products/celanachinoabu.jpeg'
+        ]
+      },
+      { 
+        name: 'Cream', 
+        hex_code: '#F5F5DC', 
+        stock: 18,
+        images: [
+          '/images/products/celanachinocream.jpeg',
+          '/images/products/celanachinocream.jpeg'
+        ]
+      },
+      { 
+        name: 'Hitam', 
+        hex_code: '#000000', 
+        stock: 15,
+        images: [
+          '/images/products/celanachinohitam.jpeg',
+          '/images/products/celanachinohitam.jpeg'
+        ]
+      }
     ],
     stock: 35,
     is_featured: true,
@@ -152,13 +178,29 @@ const allProducts: Product[] = [
     price: 359000,
     category_id: '4',
     images: [
-      'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&h=1000&fit=crop',
+      '/images/products/jaketbomberhitam.jpeg',
+      '/images/products/jaketbomberhijau.jpeg',
     ],
     sizes: [{ name: 'M', stock: 8 }, { name: 'L', stock: 12 }, { name: 'XL', stock: 8 }],
     colors: [
-      { name: 'Hitam', hex_code: '#000000', stock: 15 },
-      { name: 'Army', hex_code: '#4B5320', stock: 13 }
+      { 
+        name: 'Hitam', 
+        hex_code: '#000000', 
+        stock: 15,
+        images: [
+          '/images/products/jaketbomberhitam.jpeg',
+          '/images/products/jaketbomberhitam.jpeg'
+        ]
+      },
+      { 
+        name: 'Army', 
+        hex_code: '#4B5320', 
+        stock: 13,
+        images: [
+          '/images/products/jaketbomberhijau.jpeg',
+          '/images/products/jaketbomberhijau.jpeg'
+        ]
+      }
     ],
     stock: 28,
     is_featured: true,
@@ -174,8 +216,8 @@ const allProducts: Product[] = [
     discount_price: 229000,
     category_id: '4',
     images: [
-      'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&h=1000&fit=crop',
+      '/images/products/hoodieabu.jpeg',
+      '/images/products/hoodiehitam.jpeg',
     ],
     sizes: [{ name: 'M', stock: 10 }, { name: 'L', stock: 15 }, { name: 'XL', stock: 12 }],
     colors: [
@@ -184,8 +226,8 @@ const allProducts: Product[] = [
         hex_code: '#6B7280', 
         stock: 20,
         images: [
-          'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=1000&fit=crop',
-          'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=1000&fit=crop'
+          '/images/products/hoodieabu.jpeg',
+          '/images/products/hoodieabu.jpeg'
         ]
       },
       { 
@@ -193,8 +235,8 @@ const allProducts: Product[] = [
         hex_code: '#000000', 
         stock: 17,
         images: [
-          'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&h=1000&fit=crop',
-          'https://images.unsplash.com/photo-1614252368530-9ebdb1d90c63?w=800&h=1000&fit=crop'
+          '/images/products/hoodiehitam.jpeg',
+          '/images/products/hoodiehitam.jpeg'
         ]
       }
     ],
@@ -211,13 +253,29 @@ const allProducts: Product[] = [
     price: 249000,
     category_id: '5',
     images: [
-      'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1596783074918-c84cb06531ca?w=800&h=1000&fit=crop',
+      '/images/products/dressfloral.jpeg',
+      '/images/products/dressputih.jpeg',
     ],
     sizes: [{ name: 'S', stock: 8 }, { name: 'M', stock: 12 }, { name: 'L', stock: 8 }],
     colors: [
-      { name: 'Floral', hex_code: '#EC4899', stock: 15 },
-      { name: 'Putih', hex_code: '#FFFFFF', stock: 13 }
+      { 
+        name: 'Floral', 
+        hex_code: '#EC4899', 
+        stock: 15,
+        images: [
+          '/images/products/dressfloral.jpeg',
+          '/images/products/dressfloral.jpeg'
+        ]
+      },
+      { 
+        name: 'Putih', 
+        hex_code: '#FFFFFF', 
+        stock: 13,
+        images: [
+          '/images/products/dressputih.jpeg',
+          '/images/products/dressputih.jpeg'
+        ]
+      }
     ],
     stock: 28,
     is_featured: true,
@@ -233,13 +291,29 @@ const allProducts: Product[] = [
     discount_price: 149000,
     category_id: '1',
     images: [
-      'https://images.unsplash.com/photo-1625910513413-5fc45e80b2d1?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&h=1000&fit=crop',
+      '/images/products/polonavy.jpeg',
+      '/images/products/poloputih.jpeg',
     ],
     sizes: [{ name: 'M', stock: 15 }, { name: 'L', stock: 20 }, { name: 'XL', stock: 15 }],
     colors: [
-      { name: 'Navy', hex_code: '#1E3A5F', stock: 25 },
-      { name: 'Putih', hex_code: '#FFFFFF', stock: 25 }
+      { 
+        name: 'Navy', 
+        hex_code: '#1E3A5F', 
+        stock: 25,
+        images: [
+          '/images/products/polonavy.jpeg',
+          '/images/products/polonavy.jpeg'
+        ]
+      },
+      { 
+        name: 'Putih', 
+        hex_code: '#FFFFFF', 
+        stock: 25,
+        images: [
+          '/images/products/poloputih.jpeg',
+          '/images/products/poloputih.jpeg'
+        ]
+      }
     ],
     stock: 50,
     is_featured: true,
@@ -254,16 +328,182 @@ const allProducts: Product[] = [
     price: 299000,
     category_id: '3',
     images: [
-      'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1475178626620-a4d074967452?w=800&h=1000&fit=crop',
+      '/images/products/denimbiru.jpeg',
+      '/images/products/denimhitam.jpeg',
     ],
     sizes: [{ name: '30', stock: 10 }, { name: '32', stock: 15 }, { name: '34', stock: 12 }],
     colors: [
-      { name: 'Blue Wash', hex_code: '#4A90D9', stock: 20 },
-      { name: 'Black', hex_code: '#1F2937', stock: 17 }
+      { 
+        name: 'Blue Wash', 
+        hex_code: '#4A90D9', 
+        stock: 20,
+        images: [
+          '/images/products/denimbiru.jpeg',
+          '/images/products/denimbiru.jpeg'
+        ]
+      },
+      { 
+        name: 'Hitam', 
+        hex_code: '#1F2937', 
+        stock: 17,
+        images: [
+          '/images/products/denimhitam.jpeg',
+          '/images/products/denimhitam.jpeg'
+        ]
+      }
     ],
     stock: 37,
     is_featured: true,
+    is_active: true,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '9',
+    name: 'Cardigan Rajut Wanita',
+    slug: 'cardigan-rajut-wanita',
+    description: 'Cardigan rajut lembut untuk tampilan kasual yang chic. Bahan rajut premium yang lembut dan hangat. Cocok untuk berbagai kesempatan casual.',
+    price: 199000,
+    category_id: '4',
+    images: [
+      '/images/products/cardiganabu.jpeg',
+      '/images/products/cardigancream.jpeg',
+    ],
+    sizes: [{ name: 'S', stock: 10 }, { name: 'M', stock: 15 }, { name: 'L', stock: 10 }],
+    colors: [
+      { 
+        name: 'Abu-abu', 
+        hex_code: '#6B7280', 
+        stock: 17,
+        images: [
+          '/images/products/cardiganabu.jpeg',
+          '/images/products/cardiganabu.jpeg'
+        ]
+      },
+      { 
+        name: 'Cream', 
+        hex_code: '#F5F5DC', 
+        stock: 18,
+        images: [
+          '/images/products/cardigancream.jpeg',
+          '/images/products/cardigancream.jpeg'
+        ]
+      }
+    ],
+    stock: 35,
+    is_featured: false,
+    is_active: true,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '10',
+    name: 'Rok Mini Plisket',
+    slug: 'rok-mini-plisket',
+    description: 'Rok mini dengan detail plisket yang feminin. Bahan premium dengan jahitan rapi. Cocok untuk berbagai acara casual dan semi-formal.',
+    price: 159000,
+    discount_price: 129000,
+    category_id: '5',
+    images: [
+      '/images/products/rokminibiru.jpeg',
+      '/images/products/rokminihitam.jpeg',
+    ],
+    sizes: [{ name: 'S', stock: 12 }, { name: 'M', stock: 15 }, { name: 'L', stock: 8 }],
+    colors: [
+      { 
+        name: 'Biru', 
+        hex_code: '#3B82F6', 
+        stock: 15,
+        images: [
+          '/images/products/rokminibiru.jpeg',
+          '/images/products/rokminibiru.jpeg'
+        ]
+      },
+      { 
+        name: 'Hitam', 
+        hex_code: '#000000', 
+        stock: 20,
+        images: [
+          '/images/products/rokminihitam.jpeg',
+          '/images/products/rokminihitam.jpeg'
+        ]
+      }
+    ],
+    stock: 35,
+    is_featured: false,
+    is_active: true,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '11',
+    name: 'Sweater Crewneck Basic',
+    slug: 'sweater-crewneck-basic',
+    description: 'Sweater crewneck dengan bahan fleece yang hangat. Material premium yang lembut dan nyaman. Perfect untuk cuaca dingin atau ruangan ber-AC.',
+    price: 219000,
+    category_id: '4',
+    images: [
+      '/images/products/crewneckputih.jpeg',
+      '/images/products/crewneckhitam.jpeg',
+    ],
+    sizes: [{ name: 'M', stock: 10 }, { name: 'L', stock: 15 }, { name: 'XL', stock: 12 }],
+    colors: [
+      { 
+        name: 'Putih', 
+        hex_code: '#FFFFFF', 
+        stock: 20,
+        images: [
+          '/images/products/crewneckputih.jpeg',
+          '/images/products/crewneckputih.jpeg'
+        ]
+      },
+      { 
+        name: 'Hitam', 
+        hex_code: '#000000', 
+        stock: 17,
+        images: [
+          '/images/products/crewneckhitam.jpeg',
+          '/images/products/crewneckhitam.jpeg'
+        ]
+      }
+    ],
+    stock: 37,
+    is_featured: false,
+    is_active: true,
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '12',
+    name: 'Celana Jogger Casual',
+    slug: 'celana-jogger-casual',
+    description: 'Celana jogger nyaman untuk aktivitas sehari-hari. Bahan premium dengan elastic waist yang nyaman. Cocok untuk olahraga atau casual wear.',
+    price: 179000,
+    discount_price: 149000,
+    category_id: '3',
+    images: [
+      '/images/products/jogerhitam.jpeg',
+      '/images/products/jogerabu.jpeg',
+    ],
+    sizes: [{ name: 'M', stock: 15 }, { name: 'L', stock: 20 }, { name: 'XL', stock: 10 }],
+    colors: [
+      { 
+        name: 'Hitam', 
+        hex_code: '#000000', 
+        stock: 20,
+        images: [
+          '/images/products/jogerhitam.jpeg',
+          '/images/products/jogerhitam.jpeg'
+        ]
+      },
+      { 
+        name: 'Abu-abu', 
+        hex_code: '#6B7280', 
+        stock: 25,
+        images: [
+          '/images/products/jogerabu.jpeg',
+          '/images/products/jogerabu.jpeg'
+        ]
+      }
+    ],
+    stock: 45,
+    is_featured: false,
     is_active: true,
     created_at: new Date().toISOString()
   }
@@ -295,6 +535,9 @@ const ClothingProductDetail = () => {
   const { addItem, openCart } = useCartStore();
 
   useEffect(() => {
+    // Scroll to top when product changes
+    window.scrollTo(0, 0);
+    
     // Find product by slug
     const foundProduct = allProducts.find(p => p.slug === productId);
     if (foundProduct) {
