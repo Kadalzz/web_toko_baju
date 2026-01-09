@@ -283,22 +283,44 @@ const Account = () => {
 
   const handleSaveProfile = async () => {
     try {
-      const { error } = await supabase
+      console.log('=== UPDATING PROFILE ===');
+      console.log('User ID:', user?.id);
+      console.log('New data:', profileData);
+
+      const { data, error } = await supabase
         .from('users')
         .update({
           full_name: profileData.full_name,
-          phone: profileData.phone
+          phone: profileData.phone,
+          updated_at: new Date().toISOString()
         })
-        .eq('id', user?.id);
+        .eq('id', user?.id)
+        .select();
 
-      if (error) throw error;
+      console.log('Update response:', { data, error });
 
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
+
+      console.log('Database updated successfully');
+
+      // Update local store
       await updateProfile(profileData);
+      console.log('Store updated successfully');
+      
       setIsEditingProfile(false);
       alert('Profil berhasil diperbarui!');
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error updating profile:', err);
-      alert('Gagal memperbarui profil');
+      console.error('Error details:', {
+        message: err.message,
+        code: err.code,
+        details: err.details,
+        hint: err.hint
+      });
+      alert(`Gagal memperbarui profil: ${err.message || 'Unknown error'}`);
     }
   };
 
