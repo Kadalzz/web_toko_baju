@@ -11,6 +11,7 @@
 -- Drop existing restrictive admin policies
 DROP POLICY IF EXISTS "Admin can update orders" ON orders;
 DROP POLICY IF EXISTS "Admin can view all orders" ON orders;
+DROP POLICY IF EXISTS "Admin can delete orders" ON orders;
 
 -- Create more permissive policies for admin operations
 -- Allow anon role to update orders (admin dashboard uses anon key)
@@ -23,6 +24,12 @@ CREATE POLICY "Allow updates to orders"
 -- Allow anon role to view all orders (admin dashboard uses anon key)
 CREATE POLICY "Allow view all orders"
   ON orders FOR SELECT
+  TO anon, authenticated
+  USING (true);
+
+-- Allow anon role to delete orders (admin dashboard uses anon key)
+CREATE POLICY "Allow delete orders"
+  ON orders FOR DELETE
   TO anon, authenticated
   USING (true);
 
