@@ -327,11 +327,35 @@ const Account = () => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800';
       case 'confirmed': return 'bg-blue-100 text-blue-800';
-      case 'processing': return 'bg-blue-100 text-blue-800';
+      case 'processing': return 'bg-indigo-100 text-indigo-800';
       case 'shipped': return 'bg-purple-100 text-purple-800';
       case 'delivered': return 'bg-green-100 text-green-800';
       case 'cancelled': return 'bg-red-100 text-red-800';
+      case 'returned': return 'bg-orange-100 text-orange-800';
       default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'pending': return 'Menunggu Konfirmasi';
+      case 'confirmed': return 'Dikonfirmasi';
+      case 'processing': return 'Diproses';
+      case 'shipped': return 'Dikirim';
+      case 'delivered': return 'Selesai';
+      case 'cancelled': return 'Dibatalkan';
+      case 'returned': return 'Dikembalikan';
+      default: return status;
+    }
+  };
+
+  const getPaymentLabel = (status: string) => {
+    switch (status) {
+      case 'pending': return 'Belum Bayar';
+      case 'paid': return 'Lunas';
+      case 'failed': return 'Gagal';
+      case 'refunded': return 'Dikembalikan';
+      default: return status;
     }
   };
 
@@ -509,17 +533,25 @@ const Account = () => {
                   </div>
                   
                   <div className="mb-4 flex space-x-2 overflow-x-auto pb-2">
-                    {['all', 'pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'].map(status => (
+                    {[
+                      { value: 'all', label: 'Semua' },
+                      { value: 'pending', label: 'Menunggu' },
+                      { value: 'confirmed', label: 'Dikonfirmasi' },
+                      { value: 'processing', label: 'Diproses' },
+                      { value: 'shipped', label: 'Dikirim' },
+                      { value: 'delivered', label: 'Selesai' },
+                      { value: 'cancelled', label: 'Dibatalkan' }
+                    ].map(({ value, label }) => (
                       <button
-                        key={status}
-                        onClick={() => setOrderFilter(status)}
-                        className={`px-4 py-2 rounded-lg whitespace-nowrap ${
-                          orderFilter === status
-                            ? 'bg-primary-600 text-white'
+                        key={value}
+                        onClick={() => setOrderFilter(value)}
+                        className={`px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
+                          orderFilter === value
+                            ? 'bg-primary-600 text-white shadow-sm'
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                       >
-                        {status === 'all' ? 'Semua' : status.charAt(0).toUpperCase() + status.slice(1)}
+                        {label}
                       </button>
                     ))}
                   </div>
@@ -553,14 +585,17 @@ const Account = () => {
                             <div className="text-right space-y-1">
                               <div>
                                 <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.order_status)}`}>
-                                  {order.order_status}
+                                  {getStatusLabel(order.order_status)}
                                 </span>
                               </div>
                               <div>
                                 <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
-                                  order.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                  order.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 
+                                  order.payment_status === 'failed' ? 'bg-red-100 text-red-800' :
+                                  order.payment_status === 'refunded' ? 'bg-orange-100 text-orange-800' :
+                                  'bg-yellow-100 text-yellow-800'
                                 }`}>
-                                  {order.payment_status}
+                                  {getPaymentLabel(order.payment_status)}
                                 </span>
                               </div>
                             </div>

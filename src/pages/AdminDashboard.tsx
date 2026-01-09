@@ -212,16 +212,42 @@ const AdminDashboard = () => {
       case 'pending':
         return 'bg-yellow-100 text-yellow-800';
       case 'confirmed':
-      case 'processing':
         return 'bg-blue-100 text-blue-800';
+      case 'processing':
+        return 'bg-indigo-100 text-indigo-800';
       case 'shipped':
         return 'bg-purple-100 text-purple-800';
       case 'delivered':
         return 'bg-green-100 text-green-800';
       case 'cancelled':
         return 'bg-red-100 text-red-800';
+      case 'returned':
+        return 'bg-orange-100 text-orange-800';
       default:
         return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'pending': return 'Menunggu';
+      case 'confirmed': return 'Dikonfirmasi';
+      case 'processing': return 'Diproses';
+      case 'shipped': return 'Dikirim';
+      case 'delivered': return 'Selesai';
+      case 'cancelled': return 'Dibatalkan';
+      case 'returned': return 'Dikembalikan';
+      default: return status;
+    }
+  };
+
+  const getPaymentLabel = (status: string) => {
+    switch (status) {
+      case 'pending': return 'Belum Bayar';
+      case 'paid': return 'Lunas';
+      case 'failed': return 'Gagal';
+      case 'refunded': return 'Dikembalikan';
+      default: return status;
     }
   };
 
@@ -384,13 +410,13 @@ const AdminDashboard = () => {
                   onChange={(e) => setFilterStatus(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="all">All Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="confirmed">Confirmed</option>
-                  <option value="processing">Processing</option>
-                  <option value="shipped">Shipped</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="cancelled">Cancelled</option>
+                  <option value="all">Semua Status</option>
+                  <option value="pending">Menunggu Konfirmasi</option>
+                  <option value="confirmed">Dikonfirmasi</option>
+                  <option value="processing">Diproses</option>
+                  <option value="shipped">Dikirim</option>
+                  <option value="delivered">Selesai</option>
+                  <option value="cancelled">Dibatalkan</option>
                 </select>
               </div>
             </div>
@@ -448,14 +474,17 @@ const AdminDashboard = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.order_status)}`}>
-                            {order.order_status}
+                            {getStatusLabel(order.order_status)}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            order.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                            order.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 
+                            order.payment_status === 'failed' ? 'bg-red-100 text-red-800' :
+                            order.payment_status === 'refunded' ? 'bg-orange-100 text-orange-800' :
+                            'bg-yellow-100 text-yellow-800'
                           }`}>
-                            {order.payment_status}
+                            {getPaymentLabel(order.payment_status)}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -477,22 +506,23 @@ const AdminDashboard = () => {
                               onChange={(e) => updateOrderStatus(order.id, e.target.value, order.order_number)}
                               className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                             >
-                              <option value="pending">Pending</option>
-                              <option value="confirmed">Confirmed</option>
-                              <option value="processing">Processing</option>
-                              <option value="shipped">Shipped</option>
-                              <option value="delivered">Delivered</option>
-                              <option value="cancelled">Cancelled</option>
+                              <option value="pending">Menunggu Konfirmasi</option>
+                              <option value="confirmed">Dikonfirmasi</option>
+                              <option value="processing">Diproses</option>
+                              <option value="shipped">Dikirim</option>
+                              <option value="delivered">Selesai</option>
+                              <option value="cancelled">Dibatalkan</option>
+                              <option value="returned">Dikembalikan</option>
                             </select>
                             <select
                               value={order.payment_status}
                               onChange={(e) => updatePaymentStatus(order.id, e.target.value)}
                               className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                             >
-                              <option value="pending">Pending Payment</option>
-                              <option value="paid">Paid</option>
-                              <option value="failed">Failed</option>
-                              <option value="refunded">Refunded</option>
+                              <option value="pending">Belum Bayar</option>
+                              <option value="paid">Lunas</option>
+                              <option value="failed">Gagal</option>
+                              <option value="refunded">Dikembalikan</option>
                             </select>
                             <button
                               onClick={() => deleteOrder(order.id, order.order_number)}
