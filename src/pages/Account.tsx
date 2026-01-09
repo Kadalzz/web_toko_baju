@@ -306,8 +306,11 @@ const Account = () => {
 
       console.log('Database updated successfully');
 
-      // Update local store
-      await updateProfile(profileData);
+      // Update local store with user ID included
+      await updateProfile({
+        ...profileData,
+        id: user?.id
+      });
       console.log('Store updated successfully');
       
       setIsEditingProfile(false);

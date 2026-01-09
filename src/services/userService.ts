@@ -115,16 +115,19 @@ export const getUserProfile = async (): Promise<User | null> => {
  * Update user profile
  */
 export const updateUserProfile = async (updates: Partial<User>): Promise<User> => {
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) {
-    throw new Error('User not authenticated');
+  // Get user ID from updates (passed from store which has the user object)
+  if (!updates.id) {
+    throw new Error('User ID is required for profile update');
   }
 
   const { data, error } = await supabase
-    .from('profiles')
-    .update({ ...updates, updated_at: new Date().toISOString() } as never)
-    .eq('id', user.id)
+    .from('users')
+    .update({ 
+      full_name: updates.full_name,
+      phone: updates.phone,
+      updated_at: new Date().toISOString() 
+    })
+    .eq('id', updates.id)
     .select()
     .single();
 
