@@ -524,6 +524,7 @@ const calculateDiscount = (original: number, discounted: number) => {
 
 const ClothingProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
+  const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string>('');
@@ -579,7 +580,6 @@ const ClothingProductDetail = () => {
 
   const handleAddToCart = () => {
     const { isAuthenticated } = useAuthStore.getState();
-    const navigate = useNavigate();
 
     if (!isAuthenticated) {
       if (window.confirm('Anda harus login terlebih dahulu untuk menambahkan produk ke keranjang. Login sekarang?')) {
