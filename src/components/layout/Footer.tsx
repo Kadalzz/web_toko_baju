@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -21,27 +21,6 @@ const Footer = () => {
               Toko fashion premium dengan koleksi terlengkap dan kualitas terbaik. 
               Temukan style yang mencerminkan kepribadian Anda.
             </p>
-            {/* Social Links */}
-            <div className="flex space-x-4">
-              <a 
-                href="#" 
-                className="w-10 h-10 border border-cream-400 flex items-center justify-center hover:bg-cream-100 hover:text-primary-800 transition-all duration-300"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 border border-cream-400 flex items-center justify-center hover:bg-cream-100 hover:text-primary-800 transition-all duration-300"
-              >
-                <Facebook className="h-4 w-4" />
-              </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 border border-cream-400 flex items-center justify-center hover:bg-cream-100 hover:text-primary-800 transition-all duration-300"
-              >
-                <Twitter className="h-4 w-4" />
-              </a>
-            </div>
           </div>
 
           {/* Popular */}
@@ -73,21 +52,6 @@ const Footer = () => {
               <li>
                 <Link to="/faq" className="text-cream-300 hover:text-accent transition-colors text-sm font-lato tracking-wide">
                   FAQ
-                </Link>
-              </li>
-              <li>
-                <Link to="/cara-pemesanan" className="text-cream-300 hover:text-accent transition-colors text-sm font-lato tracking-wide">
-                  Cara Pesan
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="text-cream-300 hover:text-accent transition-colors text-sm font-lato tracking-wide">
-                  Kebijakan Privasi
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="text-cream-300 hover:text-accent transition-colors text-sm font-lato tracking-wide">
-                  Syarat & Ketentuan
                 </Link>
               </li>
             </ul>
@@ -133,21 +97,10 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="border-t border-primary-700">
         <div className="container mx-auto px-4 md:px-6 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div className="flex justify-center items-center">
             <p className="text-cream-400 text-sm font-lato tracking-wide">
               © {new Date().getFullYear()} Alba Ganti Baju. All Rights Reserved.
             </p>
-            <div className="flex items-center space-x-6">
-              <Link to="/terms" className="text-cream-400 hover:text-accent text-sm font-lato transition-colors">
-                Terms
-              </Link>
-              <Link to="/privacy" className="text-cream-400 hover:text-accent text-sm font-lato transition-colors">
-                Privacy
-              </Link>
-              <Link to="/contact" className="text-cream-400 hover:text-accent text-sm font-lato transition-colors">
-                Contact
-              </Link>
-            </div>
           </div>
         </div>
       </div>
