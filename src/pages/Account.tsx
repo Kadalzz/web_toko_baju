@@ -78,58 +78,158 @@ const Account = () => {
     return () => clearInterval(interval);
   }, [activeTab, user]);
 
+  // Real-time subscription untuk order updates
+  useEffect(() => {
+    if (!user) return;
+
+    console.log('🔔 Setting up real-time subscription for orders');
+
+    // Subscribe to changes in orders table
+    const channel = supabase
+      .channel('orders-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*', // Listen to all events (INSERT, UPDATE, DELETE)
+          schema: 'public',
+          table: 'orders'
+        },
+        (payload) => {
+          console.log('🔔 Order changed:', payload);
+          console.log('Event type:', payload.eventType);
+          console.log('New data:', payload.new);
+          
+          // Reload orders when any change occurs
+          loadOrders();
+        }
+      )
+      .subscribe((status) => {
+        console.log('Subscription status:', status);
+      });
+
+    // Cleanup subscription on unmount
+    return () => {
+      console.log('🔕 Cleaning up real-time subscription');
+      supabase.removeChannel(channel);
+    };
+  }, [user]);
+
   const loadOrders = async () => {
     try {
       setIsRefreshing(true);
       
-      // First, get customer_id from auth user
-      const { data: { user: authUser } } = await supabase.auth.getUser();
+      console.log('=== LOADING ORDERS ===');
+      console.log('User from store:', user);
       
-      if (!authUser) {
-        console.error('No authenticated user');
+      // Try to get auth user
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      console.log('Auth user:', authUser);
+      
+      // Use store user if auth fails
+      const currentUser = authUser || user;
+      
+      if (!currentUser) {
+        console.error('No user found in auth or store');
         setOrders([]);
         return;
       }
 
-      // Get customer record
+      console.log('Using user:', currentUser.id, currentUser.email);
+
+      // Strategy 1: Try to find customer by user_id
       const { data: customerData, error: customerError } = await supabase
         .from('customers')
         .select('id')
-        .eq('user_id', authUser.id)
+        .eq('user_id', currentUser.id)
         .single();
 
-      if (customerError || !customerData) {
-        console.log('No customer record found, trying with phone');
-        // Fallback: try with phone number
-        if (user?.phone) {
-          const { data, error } = await supabase
-            .from('orders')
-            .select('*')
-            .eq('shipping_phone', user.phone)
-            .order('created_at', { ascending: false });
-          
-          if (!error && data) {
-            setOrders(data);
-          }
+      if (!customerError && customerData) {
+        console.log('✅ Found customer by user_id:', customerData.id);
+        
+        // Load orders by customer_id
+        const { data, error } = await supabase
+          .from('orders')
+          .select('*')
+          .eq('customer_id', customerData.id)
+          .order('created_at', { ascending: false });
+        
+        if (!error && data) {
+          console.log('✅ Loaded orders:', data.length, data);
+          setOrders(data);
+          return;
         }
-        return;
       }
 
-      // Load orders by customer_id
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('customer_id', customerData.id)
-        .order('created_at', { ascending: false });
-      
-      if (!error && data) {
-        setOrders(data);
-        console.log('Loaded orders:', data.length);
-      } else {
-        console.error('Error loading orders:', error);
+      console.log('⚠️ No customer found by user_id, trying fallback...');
+
+      // Strategy 2: Find customer by email/phone and try to link
+      const { data: customerByContact, error: contactError } = await supabase
+        .from('customers')
+        .select('id, user_id')
+        .or(`email.eq.${user?.email},phone.eq.${user?.phone}`)
+        .single();
+
+      if (!contactError && customerByContact) {
+        console.log('Found customer by contact:', customerByContact);
+        
+        // If customer exists but no user_id, link it
+        if (!customerByContact.user_id && currentUser.id) {
+          console.log('🔗 Linking customer to user...');
+          const { error: updateError } = await supabase
+            .from('customers')
+            .update({ user_id: currentUser.id })
+            .eq('id', customerByContact.id);
+          
+          if (updateError) {
+            console.error('Failed to link customer:', updateError);
+          } else {
+            console.log('✅ Successfully linked customer to user');
+          }
+        }
+        
+        // Load orders by customer_id
+        const { data, error } = await supabase
+          .from('orders')
+          .select('*')
+          .eq('customer_id', customerByContact.id)
+          .order('created_at', { ascending: false });
+        
+        if (!error && data) {
+          console.log('✅ Loaded orders via contact:', data.length, data);
+          setOrders(data);
+          return;
+        }
       }
+
+      console.log('⚠️ No customer found, trying direct phone/email match...');
+
+      // Strategy 3: Direct match with shipping phone/email (last resort)
+      if (user?.phone || user?.email) {
+        const conditions = [];
+        if (user?.phone) conditions.push(`shipping_phone.eq.${user.phone}`);
+        if (user?.email) conditions.push(`shipping_email.eq.${user.email}`);
+        
+        const { data, error } = await supabase
+          .from('orders')
+          .select('*')
+          .or(conditions.join(','))
+          .order('created_at', { ascending: false });
+        
+        if (!error && data) {
+          console.log('✅ Loaded orders via direct match:', data.length, data);
+          setOrders(data);
+          return;
+        } else {
+          console.error('Direct match error:', error);
+        }
+      }
+
+      console.log('❌ No orders found with any strategy');
+      setOrders([]);
+      
     } catch (err) {
       console.error('Error loading orders:', err);
+      setOrders([]);
     } finally {
       setIsRefreshing(false);
     }
