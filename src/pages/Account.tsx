@@ -44,6 +44,7 @@ const Account = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [orderFilter, setOrderFilter] = useState('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   
   // Addresses state
   const [addresses, setAddresses] = useState<Address[]>([]);
@@ -86,7 +87,7 @@ const Account = () => {
 
     // Subscribe to changes in orders table
     const channel = supabase
-      .channel('orders-changes')
+      .channel('orders-changes-' + Date.now())
       .on(
         'postgres_changes',
         {
@@ -98,13 +99,21 @@ const Account = () => {
           console.log('🔔 Order changed:', payload);
           console.log('Event type:', payload.eventType);
           console.log('New data:', payload.new);
+          console.log('Old data:', payload.old);
           
-          // Reload orders when any change occurs
-          loadOrders();
+          // Force reload orders when any change occurs
+          console.log('⚡ Triggering order reload...');
+          loadOrders().then(() => {
+            setLastUpdate(new Date());
+            console.log('✅ Orders reloaded successfully');
+          });
         }
       )
       .subscribe((status) => {
         console.log('Subscription status:', status);
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ Real-time subscription active!');
+        }
       });
 
     // Cleanup subscription on unmount
@@ -155,7 +164,9 @@ const Account = () => {
         
         if (!error && data) {
           console.log('✅ Loaded orders:', data.length, data);
-          setOrders(data);
+          // Force new array reference to trigger re-render
+          setOrders([...data]);
+          setLastUpdate(new Date());
           return;
         }
       }
@@ -196,7 +207,9 @@ const Account = () => {
         
         if (!error && data) {
           console.log('✅ Loaded orders via contact:', data.length, data);
-          setOrders(data);
+          // Force new array reference to trigger re-render
+          setOrders([...data]);
+          setLastUpdate(new Date());
           return;
         }
       }
@@ -217,7 +230,9 @@ const Account = () => {
         
         if (!error && data) {
           console.log('✅ Loaded orders via direct match:', data.length, data);
-          setOrders(data);
+          // Force new array reference to trigger re-render
+          setOrders([...data]);
+          setLastUpdate(new Date());
           return;
         } else {
           console.error('Direct match error:', error);
@@ -470,16 +485,27 @@ const Account = () => {
                       <p className="text-sm text-gray-500 mt-1">
                         Pesanan akan muncul di sini setelah dikonfirmasi oleh admin
                       </p>
+                      <p className="text-xs text-gray-400 mt-1">
+                        Terakhir diperbarui: {lastUpdate.toLocaleTimeString('id-ID')}
+                      </p>
                     </div>
-                    {isRefreshing && (
-                      <span className="text-sm text-gray-500 flex items-center">
-                        <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Memperbarui...
-                      </span>
-                    )}
+                    <div className="flex items-center gap-3">
+                      {isRefreshing && (
+                        <span className="text-sm text-gray-500 flex items-center">
+                          <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Memperbarui...
+                        </span>
+                      )}
+                      <button
+                        onClick={loadOrders}
+                        className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+                      >
+                        🔄 Refresh
+                      </button>
+                    </div>
                   </div>
                   
                   <div className="mb-4 flex space-x-2 overflow-x-auto pb-2">
@@ -518,7 +544,7 @@ const Account = () => {
                       </div>
                     ) : (
                       filteredOrders.map(order => (
-                        <div key={order.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div key={`${order.id}-${order.order_status}-${order.payment_status}`} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
                           <div className="flex justify-between items-start mb-2">
                             <div>
                               <p className="font-semibold text-gray-900">{order.order_number}</p>
