@@ -144,6 +144,7 @@ const Checkout = () => {
         order_number: newOrderId,
         customer_id: customerId,
         shipping_name: formData.fullName,
+        shipping_email: formData.email,
         shipping_phone: formData.phone,
         shipping_address: formData.address,
         shipping_city: formData.city,
