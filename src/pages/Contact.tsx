@@ -67,9 +67,9 @@ const Contact = () => {
               </div>
               <h3 className="text-xl font-semibold mb-3 text-primary-800" style={{ fontFamily: "'Playfair Display', serif" }}>Lokasi Toko</h3>
               <p className="text-taupe-600 font-lato leading-relaxed text-sm">
-                Jl. Parangtritis No.33, Brontokusuman,<br />
-                Kec. Mergangsan, Kota Yogyakarta,<br />
-                Daerah Istimewa Yogyakarta 55153
+                Jl. Kusuma No.815, Baciro,<br />
+                Kec. Gondokusuman, Kota Yogyakarta,<br />
+                Daerah Istimewa Yogyakarta 55225
               </p>
             </div>
 
@@ -211,7 +211,7 @@ const Contact = () => {
                 </p>
               </div>
               <div className="aspect-square rounded-lg overflow-hidden border-2 border-primary-100 shadow-soft">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d39890.920286467044!2d110.3611107137347!3d-7.813300805497132!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a57987417d3eb%3A0x266bf49d58c3fcd5!2sJl.%20Parangtritis%20No.33%2C%20Brontokusuman%2C%20Kec.%20Mergangsan%2C%20Kota%20Yogyakarta%2C%20Daerah%20Istimewa%20Yogyakarta%2055143!5e0!3m2!1sid!2sid!4v1748593897291!5m2!1sid!2sid"
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.030475968934!2d110.39001187501724!3d-7.786893892221944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a59f2e5e3b0e3%3A0x5e4b6e8f2a1c3d4f!2sJl.%20Kusuma%20No.815%2C%20Baciro%2C%20Kec.%20Gondokusuman%2C%20Kota%20Yogyakarta%2C%20Daerah%20Istimewa%20Yogyakarta%2055225!5e0!3m2!1sid!2sid!4v1736424000000!5m2!1sid!2sid"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
