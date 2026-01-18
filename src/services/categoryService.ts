@@ -106,6 +106,22 @@ export const getSubcategories = async (parentId: string): Promise<Category[]> =>
 // ============================================
 
 /**
+ * Get all categories (for admin - includes inactive)
+ */
+export const getAllCategories = async (): Promise<Category[]> => {
+  const { data, error } = await supabase
+    .from('categories')
+    .select('*')
+    .order('name');
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data as Category[]) || [];
+};
+
+/**
  * Create new category (Admin only)
  */
 export const createCategory = async (category: Omit<Category, 'id' | 'created_at'>): Promise<Category> => {
@@ -141,12 +157,12 @@ export const updateCategory = async (id: string, updates: Partial<Category>): Pr
 };
 
 /**
- * Delete category (Admin only - soft delete)
+ * Delete category (Admin only - hard delete)
  */
 export const deleteCategory = async (id: string): Promise<void> => {
   const { error } = await supabase
     .from('categories')
-    .update({ is_active: false } as never)
+    .delete()
     .eq('id', id);
 
   if (error) {

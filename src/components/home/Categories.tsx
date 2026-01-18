@@ -1,65 +1,44 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getCategories } from '../../services/categoryService';
 import type { Category } from '../../types';
 
-// Dummy categories data - replace with API call
-const categories: Category[] = [
-  {
-    id: '1',
-    name: 'Kaos',
-    slug: 'kaos',
-    description: 'Kaos casual untuk sehari-hari',
-    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop',
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '2',
-    name: 'Kemeja',
-    slug: 'kemeja',
-    description: 'Kemeja formal dan casual',
-    image: 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=400&h=400&fit=crop',
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '3',
-    name: 'Celana',
-    slug: 'celana',
-    description: 'Celana panjang dan pendek',
-    image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&h=400&fit=crop',
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '4',
-    name: 'Jaket',
-    slug: 'jaket',
-    description: 'Jaket dan outerwear',
-    image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop',
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '5',
-    name: 'Dress',
-    slug: 'dress',
-    description: 'Dress untuk berbagai occasion',
-    image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=400&fit=crop',
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '6',
-    name: 'Aksesoris',
-    slug: 'aksesoris',
-    description: 'Aksesoris fashion',
-    image: 'https://images.unsplash.com/photo-1611923134239-b9be5816e23c?w=400&h=400&fit=crop',
-    is_active: true,
-    created_at: new Date().toISOString()
-  }
-];
-
 const Categories = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getCategories();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Memuat kategori...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (categories.length === 0) {
+    return null;
+  }
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6">

@@ -1,53 +1,50 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Star, ShoppingBag, Heart } from 'lucide-react';
 import type { Product } from '../../types';
 import { useCartStore } from '../../stores/cartStore';
 import { useAuthStore } from '../../stores/authStore';
+import { getFeaturedProducts } from '../../services/productService';
 
-// Dummy featured products - replace with API call
-const dummyProducts: Product[] = [
-  {
-    id: '1',
-    name: 'Kaos Polos Premium Cotton',
-    slug: 'kaos-polos-premium-cotton',
-    description: 'Kaos polos berbahan cotton combed 30s yang nyaman dipakai sehari-hari',
-    price: 129000,
-    discount_price: 89000,
-    category_id: '1',
-    images: ['/images/products/kaospolosputih.jpeg'],
-    sizes: [{ name: 'S', stock: 10 }, { name: 'M', stock: 15 }, { name: 'L', stock: 20 }, { name: 'XL', stock: 10 }],
-    colors: [
-      { name: 'Hitam', hex_code: '#000000', stock: 25, images: ['/images/products/kaospoloshitam.jpeg'] },
-      { name: 'Putih', hex_code: '#FFFFFF', stock: 30, images: ['/images/products/kaospolosputih.jpeg'] }
-    ],
-    stock: 55,
-    is_featured: true,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '2',
-    name: 'Kemeja Flanel Kotak Premium',
-    slug: 'kemeja-flanel-kotak-premium',
-    description: 'Kemeja flanel dengan motif kotak-kotak yang stylish',
-    price: 189000,
-    category_id: '2',
-    images: ['/images/products/kemejabu.jpeg'],
-    sizes: [{ name: 'M', stock: 10 }, { name: 'L', stock: 15 }, { name: 'XL', stock: 10 }],
-    colors: [
-      { name: 'Cream', hex_code: '#FFFDD0', stock: 15, images: ['/images/products/kemejabu.jpeg'] },
-      { name: 'Putih', hex_code: '#FFFFFF', stock: 20, images: ['/images/products/kemejaputih.jpeg'] }
-    ],
-    stock: 35,
-    is_featured: true,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '3',
-    name: 'Celana Chino Slim Fit',
-    slug: 'celana-chino-slim-fit',
+const FeaturedProducts = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const { addItem, openCart } = useCartStore();
+
+  useEffect(() => {
+    loadFeaturedProducts();
+  }, []);
+
+  const loadFeaturedProducts = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getFeaturedProducts(8);
+      console.log('Featured products loaded:', data);
+      setProducts(data);
+    } catch (error) {
+      console.error('Error loading featured products:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Memuat produk...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (products.length === 0) {
+    return null;
+  }
     description: 'Celana chino dengan potongan slim fit yang modern',
     price: 259000,
     discount_price: 199000,
@@ -161,6 +158,9 @@ const dummyProducts: Product[] = [
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
     currency: 'IDR',
     minimumFractionDigits: 0,
   }).format(price);
@@ -169,11 +169,6 @@ const formatPrice = (price: number) => {
 const calculateDiscount = (original: number, discounted: number) => {
   return Math.round(((original - discounted) / original) * 100);
 };
-
-const FeaturedProducts = () => {
-  const [products] = useState<Product[]>(dummyProducts);
-  const navigate = useNavigate();
-  const { addItem } = useCartStore();
 
   const handleQuickAdd = (product: Product) => {
     const { isAuthenticated } = useAuthStore.getState();
@@ -212,7 +207,11 @@ const FeaturedProducts = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {products.map((product) => (
+          {products.map((product) => {
+            const productImages = Array.isArray(product.images) ? product.images : [];
+            const mainImage = productImages[0] || '/images/placeholder.jpg';
+            
+            return (
             <div key={product.id} className="group">
               <div className="relative bg-gray-100 rounded-xl overflow-hidden aspect-[3/4]">
                 {/* Discount Badge */}
@@ -230,9 +229,13 @@ const FeaturedProducts = () => {
                 {/* Product Image */}
                 <Link to={`/products/clothing/${product.slug}`}>
                   <img
-                    src={product.images[0]}
+                    src={mainImage}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/images/placeholder.jpg';
+                    }}
                   />
                 </Link>
 
@@ -282,7 +285,7 @@ const FeaturedProducts = () => {
                 </div>
               </div>
             </div>
-          ))}
+          )})}
         </div>
 
         {/* Mobile View All Button */}

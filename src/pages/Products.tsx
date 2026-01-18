@@ -5,258 +5,8 @@ import type { Product, Category } from '../types';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
 import { supabase } from '../lib/supabase';
-
-// Dummy products data
-const allProducts: Product[] = [
-  {
-    id: '1',
-    name: 'Kaos Polos Premium Cotton',
-    slug: 'kaos-polos-premium-cotton',
-    description: 'Kaos polos berbahan cotton combed 30s yang nyaman dipakai sehari-hari',
-    price: 129000,
-    discount_price: 89000,
-    category_id: '1',
-    gender_category: 'both',
-    images: ['/images/products/kaospolosputih.jpeg'],
-    sizes: [{ name: 'S', stock: 10 }, { name: 'M', stock: 15 }, { name: 'L', stock: 20 }, { name: 'XL', stock: 10 }],
-    colors: [
-      { name: 'Hitam', hex_code: '#000000', stock: 25, images: ['/images/products/kaospoloshitam.jpeg'] },
-      { name: 'Putih', hex_code: '#FFFFFF', stock: 30, images: ['/images/products/kaospolosputih.jpeg'] },
-      { name: 'Navy', hex_code: '#1E3A5F', stock: 20, images: ['/images/products/kaospolosnavy.jpeg'] },
-      { name: 'Abu-abu', hex_code: '#6B7280', stock: 15, images: ['/images/products/kaospolosabu.jpeg'] }
-    ],
-    stock: 55,
-    is_featured: true,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '2',
-    name: 'Kemeja Flanel Kotak Premium',
-    slug: 'kemeja-flanel-kotak-premium',
-    description: 'Kemeja flanel dengan motif kotak-kotak yang stylish',
-    price: 189000,
-    category_id: '2',
-    gender_category: 'pria',
-    images: ['/images/products/kemejabu.jpeg'],
-    sizes: [{ name: 'M', stock: 10 }, { name: 'L', stock: 15 }, { name: 'XL', stock: 10 }],
-    colors: [
-      { name: 'Biru', hex_code: '#3B82F6', stock: 15, images: ['/images/products/kemejabu.jpeg'] },
-      { name: 'Putih', hex_code: '#FFFFFF', stock: 20, images: ['/images/products/kemejaputih.jpeg'] },
-      { name: 'Cream', hex_code: '#F5F5DC', stock: 18, images: ['/images/products/kemejacream.jpeg'] }
-    ],
-    stock: 35,
-    is_featured: true,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '3',
-    name: 'Celana Chino Slim Fit',
-    slug: 'celana-chino-slim-fit',
-    description: 'Celana chino dengan potongan slim fit yang modern',
-    price: 259000,
-    discount_price: 199000,
-    category_id: '3',
-    gender_category: 'pria',
-    images: ['/images/products/celanachinoabu.jpeg'],
-    sizes: [{ name: '30', stock: 10 }, { name: '32', stock: 15 }, { name: '34', stock: 10 }],
-    colors: [
-      { name: 'Abu-abu', hex_code: '#6B7280', stock: 20, images: ['/images/products/celanachinoabu.jpeg'] },
-      { name: 'Cream', hex_code: '#F5F5DC', stock: 18, images: ['/images/products/celanachinocream.jpeg'] },
-      { name: 'Hitam', hex_code: '#000000', stock: 15, images: ['/images/products/celanachinohitam.jpeg'] }
-    ],
-    stock: 35,
-    is_featured: true,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '4',
-    name: 'Jaket Bomber Premium',
-    slug: 'jaket-bomber-premium',
-    description: 'Jaket bomber dengan bahan premium yang tahan lama',
-    price: 359000,
-    category_id: '4',
-    gender_category: 'both',
-    images: ['/images/products/jaketbomberhitam.jpeg'],
-    sizes: [{ name: 'M', stock: 8 }, { name: 'L', stock: 12 }, { name: 'XL', stock: 8 }],
-    colors: [
-      { name: 'Hitam', hex_code: '#000000', stock: 15, images: ['/images/products/jaketbomberhitam.jpeg'] },
-      { name: 'Army', hex_code: '#4B5320', stock: 13, images: ['/images/products/jaketbomberhijau.jpeg'] }
-    ],
-    stock: 28,
-    is_featured: true,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '5',
-    name: 'Hoodie Basic Oversize',
-    slug: 'hoodie-basic-oversize',
-    description: 'Hoodie dengan potongan oversize yang trendy',
-    price: 279000,
-    discount_price: 229000,
-    category_id: '4',
-    gender_category: 'pria',
-    images: ['/images/products/hoodieabu.jpeg'],
-    sizes: [{ name: 'M', stock: 10 }, { name: 'L', stock: 15 }, { name: 'XL', stock: 12 }],
-    colors: [
-      { name: 'Abu-abu', hex_code: '#6B7280', stock: 20, images: ['/images/products/hoodieabu.jpeg'] },
-      { name: 'Hitam', hex_code: '#000000', stock: 17, images: ['/images/products/hoodiehitam.jpeg'] }
-    ],
-    stock: 37,
-    is_featured: true,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '6',
-    name: 'Dress Casual Summer',
-    slug: 'dress-casual-summer',
-    description: 'Dress casual yang cocok untuk musim panas',
-    price: 249000,
-    category_id: '5',
-    gender_category: 'wanita',
-    images: ['/images/products/dressfloral.jpeg'],
-    sizes: [{ name: 'S', stock: 8 }, { name: 'M', stock: 12 }, { name: 'L', stock: 8 }],
-    colors: [
-      { name: 'Floral', hex_code: '#EC4899', stock: 15, images: ['/images/products/dressfloral.jpeg'] },
-      { name: 'Putih', hex_code: '#FFFFFF', stock: 13, images: ['/images/products/dressputih.jpeg'] }
-    ],
-    stock: 28,
-    is_featured: true,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '7',
-    name: 'Polo Shirt Classic',
-    slug: 'polo-shirt-classic',
-    description: 'Polo shirt dengan desain classic yang timeless',
-    price: 179000,
-    discount_price: 149000,
-    category_id: '1',
-    gender_category: 'pria',
-    images: ['/images/products/polonavy.jpeg'],
-    sizes: [{ name: 'M', stock: 15 }, { name: 'L', stock: 20 }, { name: 'XL', stock: 15 }],
-    colors: [
-      { name: 'Navy', hex_code: '#1E3A5F', stock: 25, images: ['/images/products/polonavy.jpeg'] },
-      { name: 'Putih', hex_code: '#FFFFFF', stock: 25, images: ['/images/products/poloputih.jpeg'] }
-    ],
-    stock: 50,
-    is_featured: true,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '8',
-    name: 'Jeans Denim Stretch',
-    slug: 'jeans-denim-stretch',
-    description: 'Jeans denim dengan bahan stretch yang nyaman',
-    price: 299000,
-    category_id: '3',
-    gender_category: 'both',
-    images: ['/images/products/denimbiru.jpeg'],
-    sizes: [{ name: '30', stock: 10 }, { name: '32', stock: 15 }, { name: '34', stock: 12 }],
-    colors: [
-      { name: 'Blue Wash', hex_code: '#4A90D9', stock: 20, images: ['/images/products/denimbiru.jpeg'] },
-      { name: 'Hitam', hex_code: '#1F2937', stock: 17, images: ['/images/products/denimhitam.jpeg'] }
-    ],
-    stock: 37,
-    is_featured: true,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '9',
-    name: 'Cardigan Rajut Wanita',
-    slug: 'cardigan-rajut-wanita',
-    description: 'Cardigan rajut lembut untuk tampilan kasual yang chic',
-    price: 199000,
-    category_id: '4',
-    gender_category: 'wanita',
-    images: ['/images/products/cardiganabu.jpeg'],
-    sizes: [{ name: 'S', stock: 10 }, { name: 'M', stock: 15 }, { name: 'L', stock: 10 }],
-    colors: [
-      { name: 'Abu-abu', hex_code: '#6B7280', stock: 17, images: ['/images/products/cardiganabu.jpeg'] },
-      { name: 'Cream', hex_code: '#F5F5DC', stock: 18, images: ['/images/products/cardigancream.jpeg'] }
-    ],
-    stock: 35,
-    is_featured: false,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '10',
-    name: 'Rok Mini Plisket',
-    slug: 'rok-mini-plisket',
-    description: 'Rok mini dengan detail plisket yang feminin',
-    price: 159000,
-    discount_price: 129000,
-    category_id: '5',
-    gender_category: 'wanita',
-    images: ['/images/products/rokminibiru.jpeg'],
-    sizes: [{ name: 'S', stock: 12 }, { name: 'M', stock: 15 }, { name: 'L', stock: 8 }],
-    colors: [
-      { name: 'Biru', hex_code: '#3B82F6', stock: 15, images: ['/images/products/rokminibiru.jpeg'] },
-      { name: 'Hitam', hex_code: '#000000', stock: 20, images: ['/images/products/rokminihitam.jpeg'] }
-    ],
-    stock: 35,
-    is_featured: false,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '11',
-    name: 'Sweater Crewneck Basic',
-    slug: 'sweater-crewneck-basic',
-    description: 'Sweater crewneck dengan bahan fleece yang hangat',
-    price: 219000,
-    category_id: '4',
-    gender_category: 'wanita',
-    images: ['/images/products/crewneckputih.jpeg'],
-    sizes: [{ name: 'M', stock: 10 }, { name: 'L', stock: 15 }, { name: 'XL', stock: 12 }],
-    colors: [
-      { name: 'Putih', hex_code: '#FFFFFF', stock: 20, images: ['/images/products/crewneckputih.jpeg'] },
-      { name: 'Hitam', hex_code: '#000000', stock: 17, images: ['/images/products/crewneckhitam.jpeg'] }
-    ],
-    stock: 37,
-    is_featured: false,
-    is_active: true,
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '12',
-    name: 'Celana Jogger Casual',
-    slug: 'celana-jogger-casual',
-    description: 'Celana jogger nyaman untuk aktivitas sehari-hari',
-    price: 179000,
-    discount_price: 149000,
-    category_id: '3',
-    gender_category: 'wanita',
-    images: ['/images/products/jogerhitam.jpeg'],
-    sizes: [{ name: 'M', stock: 15 }, { name: 'L', stock: 20 }, { name: 'XL', stock: 10 }],
-    colors: [
-      { name: 'Hitam', hex_code: '#000000', stock: 20, images: ['/images/products/jogerhitam.jpeg'] },
-      { name: 'Abu-abu', hex_code: '#6B7280', stock: 25, images: ['/images/products/jogerabu.jpeg'] }
-    ],
-    stock: 45,
-    is_featured: false,
-    is_active: true,
-    created_at: new Date().toISOString()
-  }
-];
-
-const categories: Category[] = [
-  { id: '1', name: 'Kaos', slug: 'kaos', is_active: true, created_at: '' },
-  { id: '2', name: 'Kemeja', slug: 'kemeja', is_active: true, created_at: '' },
-  { id: '3', name: 'Celana', slug: 'celana', is_active: true, created_at: '' },
-  { id: '4', name: 'Jaket & Sweater', slug: 'jaket', is_active: true, created_at: '' },
-  { id: '5', name: 'Dress & Rok', slug: 'dress', is_active: true, created_at: '' },
-  { id: 'wanita', name: 'Wanita', slug: 'wanita', is_active: true, created_at: '' },
-  { id: 'pria', name: 'Pria', slug: 'pria', is_active: true, created_at: '' },
-];
+import { getProducts } from '../services/productService';
+import { getCategories } from '../services/categoryService';
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('id-ID', {
@@ -278,8 +28,34 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000]);
   const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set());
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { addItem, openCart } = useCartStore();
   const { user, isAuthenticated } = useAuthStore();
+
+  // Load products and categories from database
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      setIsLoading(true);
+      const [productsData, categoriesData] = await Promise.all([
+        getProducts({}, 1, 100),
+        getCategories()
+      ]);
+      console.log('Products loaded:', productsData);
+      console.log('Categories loaded:', categoriesData);
+      setProducts(productsData.data);
+      setCategories(categoriesData);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Load wishlist IDs
   useEffect(() => {
@@ -364,22 +140,13 @@ const Products = () => {
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
-    let result = [...allProducts];
+    let result = [...products];
 
     // Filter by category
     if (selectedCategory) {
       const category = categories.find(c => c.slug === selectedCategory);
       if (category) {
-        // Check if it's a gender category (wanita or pria)
-        if (category.id === 'wanita' || category.id === 'pria') {
-          result = result.filter(p => 
-            (p as any).gender_category === category.id || 
-            (p as any).gender_category === 'both'
-          );
-        } else {
-          // Regular category filter
-          result = result.filter(p => p.category_id === category.id);
-        }
+        result = result.filter(p => p.category_id === category.id);
       }
     }
 
@@ -405,7 +172,7 @@ const Products = () => {
     }
 
     return result;
-  }, [selectedCategory, priceRange, sortBy]);
+  }, [products, selectedCategory, priceRange, sortBy]);
 
   const handleCategoryChange = (slug: string) => {
     setSelectedCategory(slug);
@@ -426,11 +193,24 @@ const Products = () => {
       return;
     }
 
-    const defaultSize = product.sizes[0]?.name || '';
-    const defaultColor = product.colors[0]?.name || '';
+    const productSizes = Array.isArray(product.sizes) ? product.sizes : [];
+    const productColors = Array.isArray(product.colors) ? product.colors : [];
+    const defaultSize = productSizes[0]?.name || 'M';
+    const defaultColor = productColors[0]?.name || 'Default';
     addItem(product, 1, defaultSize, defaultColor);
     openCart();
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-cream-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-800 mx-auto"></div>
+          <p className="mt-4 text-taupe-600">Memuat produk...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-cream-50">
@@ -551,15 +331,25 @@ const Products = () => {
 
             {/* Products Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-              {filteredProducts.map((product) => (
+              {filteredProducts.map((product) => {
+                const productImages = Array.isArray(product.images) ? product.images : [];
+                const productColors = Array.isArray(product.colors) ? product.colors : [];
+                const productSizes = Array.isArray(product.sizes) ? product.sizes : [];
+                const mainImage = productImages[0] || '/images/placeholder.jpg';
+                
+                return (
                 <div key={product.id} className="group">
                   {/* Image */}
                   <div className="relative aspect-[3/4] overflow-hidden bg-cream-100 border border-primary-100 hover:border-primary-300 transition-all duration-500">
                     <Link to={`/products/clothing/${product.slug}`}>
                       <img
-                        src={product.images[0]}
+                        src={mainImage}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = '/images/placeholder.jpg';
+                        }}
                       />
                     </Link>
                     
@@ -632,21 +422,21 @@ const Products = () => {
 
                     {/* Colors */}
                     <div className="flex items-center justify-center gap-1.5 mt-3">
-                      {product.colors.slice(0, 4).map((color) => (
+                      {productColors.slice(0, 4).map((color, idx) => (
                         <div
-                          key={color.name}
+                          key={`${color.name}-${idx}`}
                           className="w-4 h-4 border border-primary-200"
-                          style={{ backgroundColor: color.hex_code }}
+                          style={{ backgroundColor: color.hex_code || '#ccc' }}
                           title={color.name}
                         />
                       ))}
-                      {product.colors.length > 4 && (
-                        <span className="text-xs text-taupe-500">+{product.colors.length - 4}</span>
+                      {productColors.length > 4 && (
+                        <span className="text-xs text-taupe-500">+{productColors.length - 4}</span>
                       )}
                     </div>
                   </div>
                 </div>
-              ))}
+              )})}
             </div>
 
             {/* Empty State */}

@@ -1,54 +1,38 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-interface Category {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  image: string;
-}
-
-// Dummy categories data
-const dummyCategories: Category[] = [
-  {
-    id: '1',
-    name: 'Kaos',
-    slug: 'kaos',
-    description: 'Koleksi kaos pria dan wanita dengan berbagai model dan...',
-    image: '/images/model/modelkaospolos.jpeg'
-  },
-  {
-    id: '2',
-    name: 'Kemeja',
-    slug: 'kemeja',
-    description: 'Kemeja formal dan casual untuk tampilan profesional',
-    image: '/images/model/modelkemeja.jpeg'
-  },
-  {
-    id: '3',
-    name: 'Celana',
-    slug: 'celana',
-    description: 'Celana jeans, chino, cargo, dan kulot',
-    image: '/images/model/modeljeans.jpeg'
-  },
-  {
-    id: '4',
-    name: 'Jaket',
-    slug: 'jaket',
-    description: 'Jaket, hoodie, dan outerwear untuk gaya kasual',
-    image: '/images/model/modeljaket.jpeg'
-  },
-  {
-    id: '5',
-    name: 'Dress',
-    slug: 'dress',
-    description: 'Koleksi dress casual dan formal untuk berbagai acara',
-    image: '/images/model/modeldress.jpeg'
-  }
-];
+import { getCategories } from '../services/categoryService';
+import type { Category } from '../types';
 
 const Categories = () => {
-  const categories = dummyCategories;
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getCategories();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-cream-50 to-cream-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-800 mx-auto"></div>
+          <p className="mt-4 text-taupe-600">Memuat kategori...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-cream-50 to-cream-100">
@@ -117,9 +101,10 @@ const Categories = () => {
           ))}
         </div>
 
-        {categories.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-taupe-600 font-lato">Belum ada kategori tersedia.</p>
+        {categories.length === 0 && !isLoading && (
+          <div className="text-center py-12 bg-white shadow-card">
+            <p className="text-taupe-600 font-lato text-lg">Belum ada kategori tersedia.</p>
+            <p className="text-taupe-500 font-lato text-sm mt-2">Admin dapat menambahkan kategori melalui dashboard admin.</p>
           </div>
         )}
       </div>

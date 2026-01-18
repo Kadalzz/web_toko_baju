@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, LogOut, User, Package, DollarSign, Search, Phone, Trash2, CheckCircle, Bell } from 'lucide-react';
+import { FileText, LogOut, User, Package, DollarSign, Search, Phone, Trash2, CheckCircle, Bell, ShoppingBag, FolderTree } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 interface Order {
@@ -288,6 +288,38 @@ const AdminDashboard = () => {
             >
               <LogOut className="h-4 w-4 mr-2" />
               Logout
+            </button>
+          </div>
+
+          {/* Quick Navigation */}
+          <div className="mt-4 flex space-x-3 border-t pt-4">
+            <button
+              onClick={() => navigate('/admin/dashboard')}
+              className="flex items-center space-x-2 px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200"
+            >
+              <FileText className="w-5 h-5" />
+              <span>Pesanan</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/products')}
+              className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              <span>Kelola Produk</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/categories')}
+              className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+            >
+              <FolderTree className="w-5 h-5" />
+              <span>Kelola Kategori</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/seed-data')}
+              className="flex items-center space-x-2 px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200"
+            >
+              <Package className="w-5 h-5" />
+              <span>Seed Data</span>
             </button>
           </div>
         </div>

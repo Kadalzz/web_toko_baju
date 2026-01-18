@@ -16,6 +16,9 @@ import Account from './pages/Account';
 import Wishlist from './pages/Wishlist';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminCategories from './pages/AdminCategories';
+import AdminProducts from './pages/AdminProducts';
+import AdminSeedData from './pages/AdminSeedData';
 import OrderForm from './pages/OrderForm';
 import OrderGuide from './pages/OrderGuide';
 import Categories from './pages/Categories';
@@ -63,6 +66,9 @@ function App() {
       {/* Admin */}
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      <Route path="/admin/categories" element={<AdminCategories />} />
+      <Route path="/admin/products" element={<AdminProducts />} />
+      <Route path="/admin/seed-data" element={<AdminSeedData />} />
     </Routes>
   );
 }

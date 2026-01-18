@@ -179,6 +179,38 @@ export const searchProducts = async (query: string, limit: number = 10): Promise
 // ============================================
 
 /**
+ * Get all products for admin (includes inactive)
+ */
+export const getAllProducts = async (
+  page: number = 1,
+  limit: number = 100
+): Promise<PaginatedResponse<Product>> => {
+  let query = supabase
+    .from('products')
+    .select('*, categories(name, slug)', { count: 'exact' })
+    .order('created_at', { ascending: false });
+
+  // Apply pagination
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+  query = query.range(from, to);
+
+  const { data, error, count } = await query;
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return {
+    data: (data as unknown as Product[]) || [],
+    total: count || 0,
+    page,
+    limit,
+    total_pages: Math.ceil((count || 0) / limit),
+  };
+};
+
+/**
  * Create new product (Admin only)
  */
 export const createProduct = async (product: Omit<Product, 'id' | 'created_at'>): Promise<Product> => {
@@ -214,12 +246,12 @@ export const updateProduct = async (id: string, updates: Partial<Product>): Prom
 };
 
 /**
- * Delete product (Admin only - soft delete)
+ * Delete product (Admin only - hard delete)
  */
 export const deleteProduct = async (id: string): Promise<void> => {
   const { error } = await supabase
     .from('products')
-    .update({ is_active: false } as never)
+    .delete()
     .eq('id', id);
 
   if (error) {
